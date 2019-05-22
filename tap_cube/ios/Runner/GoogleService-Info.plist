@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>482631160813-3j83sfn6prcdhi728vdq50jas4nsdhpj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.482631160813-3j83sfn6prcdhi728vdq50jas4nsdhpj</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAMp3Hv2DZKqoGZtndiSej8ggd0RjpZjZs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>482631160813</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>de.darkdevelopers.tapCube</string>
+	<key>PROJECT_ID</key>
+	<string>tap-cube</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tap-cube.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:482631160813:ios:96c2d49eff2c59ed</string>
+	<key>DATABASE_URL</key>
+	<string>https://tap-cube.firebaseio.com</string>
+</dict>
+</plist>
