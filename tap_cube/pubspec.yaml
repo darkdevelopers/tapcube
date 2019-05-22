@@ -42,7 +42,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  #assets:
+  assets:
+    - assets/images/bg/background.png
   #  - locale/i18n_de.json
   #  - locale/i18n_en.json
 

@@ -1,38 +1,34 @@
+import 'dart:math';
 import 'dart:ui';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
+import 'package:tap_cube/components/background.dart';
 
 class GameView extends Game {
   Size screenSize;
+  double tileSize;
+  Background background;
+
+  GameView() {
+    initialize();
+  }
+
+  void initialize() async {
+    resize(await Flame.util.initialDimensions());
+    background = Background(this);
+  }
 
   void render(Canvas canvas) {
-    setBackground(canvas);
-    double screenCenterX = screenSize.width / 2;
-    double screenCenterY = screenSize.height / 2;
-    Rect boxRect = Rect.fromLTWH(
-        screenCenterX - 75,
-        screenCenterY - 75,
-        150,
-        150
-    );
-    Paint boxPaint = Paint();
-    boxPaint.color = Color(0xffffffff);
-    canvas.drawRect(boxRect, boxPaint);
+    background.render(canvas);
   }
 
-  void update(double t) {
-    // TODO: implement update
-  }
+  void update(double t) {}
 
   void resize(Size size) {
     screenSize = size;
-    super.resize(size);
+    tileSize = screenSize.width / 9;
   }
 
-  void setBackground(Canvas canvas) {
-    Rect bgRect = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
-    Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff000000);
-    canvas.drawRect(bgRect, bgPaint);
-  }
+  void onTapDown(TapDownDetails d) {}
 }
