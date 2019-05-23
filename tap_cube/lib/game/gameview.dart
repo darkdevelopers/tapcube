@@ -35,6 +35,7 @@ class GameView extends Game {
     background = Background(this);
 
     FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+
     analytics = new FirebaseAnalytics();
     observer = new FirebaseAnalyticsObserver(analytics: analytics);
 
