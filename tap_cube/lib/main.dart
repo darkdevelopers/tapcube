@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:tap_cube/game/gameview.dart';
 
-
 void main() async {
   Util flameUtil = new Util();
   await flameUtil.fullScreen();
