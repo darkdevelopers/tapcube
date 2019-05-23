@@ -27,7 +27,6 @@ class GameView extends Game {
 
   GameView() {
     initialize();
-
   }
 
   void initialize() async {
@@ -72,6 +71,10 @@ class GameView extends Game {
   }
 
   void onTapDown(TapDownDetails d) {
+    analytics.logEvent(name: 'levelup', parameters: <String, dynamic>{
+        'int': 1,
+      }
+    );
     loadAds();
   }
 }
