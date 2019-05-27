@@ -124,13 +124,17 @@ class GameView extends Game {
   }
 
   void onTapDown(TapDownDetails d) {
-    goldMobs.forEach((GoldMob goldMob) {
-        if(goldMob.mobRect.contains(d.globalPosition)) {
+    if(!goldMobs.isEmpty) {
+      goldMobs.forEach((GoldMob goldMob) {
+        if (goldMob.mobRect.contains(d.globalPosition)) {
           goldMob.onTapDown(d);
+        }else {
+          print("make Damage");
         }
-    });
-
-
+      });
+    }else{
+      print("make Damage");
+    }
 
     /*analytics.logEvent(name: 'levelup', parameters: <String, dynamic>{
       'int': 1,
