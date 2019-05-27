@@ -9,16 +9,12 @@ class GoldMob extends Mob {
   int newSpawnTime = 0;
   bool isOffScreen = false;
   Offset targetLocation;
-  TapGestureRecognizer tapperGoldMob;
 
   double get speed => gv.tileSize * 0.5;
 
-  GoldMob(GameView gv, double left, double top, Util _flameUtil) : super (gv, left, top) {
+  GoldMob(GameView gv, double left, double top) : super (gv, left, top) {
     Duration duration = Duration(minutes: gv.rng.nextInt(10));
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
-    tapperGoldMob = TapGestureRecognizer();
-    tapperGoldMob.onTapDown = this.onTapDown;
-    _flameUtil.addGestureRecognizer(tapperGoldMob);
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);

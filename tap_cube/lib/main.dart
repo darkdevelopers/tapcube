@@ -18,7 +18,7 @@ void main() async {
     'mobs/boss.png'
   ]);
 
-  GameView gv = new GameView(flameUtil);
+  GameView gv = new GameView();
   runApp(gv.widget);
 
   TapGestureRecognizer tapperGameView = TapGestureRecognizer();

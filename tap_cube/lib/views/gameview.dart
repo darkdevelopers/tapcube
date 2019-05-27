@@ -34,11 +34,9 @@ class GameView extends Game {
   FirebaseAnalytics analytics;
   FirebaseAnalyticsObserver observer;
   Random rng;
-  Util flameUtil;
   int newGoldMobSpawnTimeStamp;
 
-  GameView(Util _flameUtil) {
-    flameUtil = _flameUtil;
+  GameView() {
     initialize();
   }
 
@@ -120,20 +118,20 @@ class GameView extends Game {
 
   void spawnGoldMob() {
     double top = rng.nextDouble() * (screenSize.height - tileSize);
-    goldMobs.add(GoldMob(this, 0.0, top, flameUtil));
+    goldMobs.add(GoldMob(this, 0.0, top));
   }
 
   void onTapDown(TapDownDetails d) {
-    if(!goldMobs.isEmpty) {
+    if(goldMobs.isNotEmpty) {
       goldMobs.forEach((GoldMob goldMob) {
         if (goldMob.mobRect.contains(d.globalPosition)) {
           goldMob.onTapDown(d);
-        }else {
-          print("make Damage");
+        } else {
+          print("make damage");
         }
       });
     }else{
-      print("make Damage");
+      print("make damage");
     }
 
     /*analytics.logEvent(name: 'levelup', parameters: <String, dynamic>{
