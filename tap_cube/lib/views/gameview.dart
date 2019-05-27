@@ -62,7 +62,9 @@ class GameView extends Game {
     mob.render(canvas);
     user.render(canvas);
     goldMobs.forEach((GoldMob goldMob) {
-      if(goldMob.newSpawnTime >= DateTime.now().millisecondsSinceEpoch){
+      if(goldMob.newSpawnTime <= DateTime.now().millisecondsSinceEpoch){
+        print("render");
+        print(goldMob.newSpawnTime);
         goldMob.render(canvas);
       }
     });
@@ -117,6 +119,7 @@ class GameView extends Game {
   }
 
   void spawnGoldMob() {
+
     double top = rng.nextDouble() * (screenSize.height - tileSize);
     goldMobs.add(GoldMob(this, 0.0, top));
   }
