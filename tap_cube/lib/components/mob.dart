@@ -7,10 +7,12 @@ class Mob {
   Rect mobRect;
   Sprite mobSprite;
   double start = 0;
+  double currentLive = 0.0;
 
-  Mob(this.gv, double left, double top) {
+  Mob(this.gv, double left, double top, {double live}) {
     mobSprite = Sprite('mobs/trashmob.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize * 3, gv.tileSize * 3);
+    currentLive = live;
   }
 
   void render(Canvas c) {
