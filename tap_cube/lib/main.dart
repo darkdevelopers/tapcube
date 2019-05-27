@@ -3,7 +3,7 @@ import 'package:flame/util.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:tap_cube/game/gameview.dart';
+import 'package:tap_cube/views/gameview.dart';
 
 void main() async {
   Util flameUtil = new Util();

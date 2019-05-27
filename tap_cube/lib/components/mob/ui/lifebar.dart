@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:tap_cube/game/gameview.dart';
+import 'package:tap_cube/views/gameview.dart';
 
 class LifeBar {
   final GameView gv;
