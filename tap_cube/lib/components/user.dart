@@ -6,10 +6,14 @@ class User {
   final GameView gv;
   Rect userRect;
   Sprite userSprite;
+  int currentLevel = 1;
+  int currentDamage = 1;
 
-  User(this.gv, double left, double top) {
+  User(this.gv, double left, double top, {int level, int damage}) {
     userSprite = Sprite('user/user.png');
     userRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
+    currentLevel = level;
+    currentDamage = damage;
   }
 
   void render(Canvas c) {
