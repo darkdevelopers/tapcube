@@ -35,6 +35,7 @@ class GameView extends Game {
   FirebaseAnalyticsObserver observer;
   Random rng;
   Util flameUtil;
+  int newGoldMobSpawnTimeStamp;
 
   GameView(Util _flameUtil) {
     flameUtil = _flameUtil;
@@ -49,7 +50,6 @@ class GameView extends Game {
 
     spawnMob();
     spawnUser();
-    spawnGoldmob();
 
     FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
 
@@ -63,12 +63,19 @@ class GameView extends Game {
     background.render(canvas);
     mob.render(canvas);
     user.render(canvas);
-    goldMobs.forEach((GoldMob goldMob) => goldMob.render(canvas));
+    goldMobs.forEach((GoldMob goldMob) {
+      if(goldMob.newSpawnTime >= DateTime.now().millisecondsSinceEpoch){
+        goldMob.render(canvas);
+      }
+    });
   }
 
   void update(double t) {
     goldMobs.forEach((GoldMob goldMob) => goldMob.update(t));
     goldMobs.removeWhere((GoldMob goldMob) => goldMob.isOffScreen);
+    if(goldMobs.isEmpty){
+      spawnGoldMob();
+    }
   }
 
   void resize(Size size) {
@@ -111,7 +118,7 @@ class GameView extends Game {
         ((screenSize.height - tileSize) / 2.1));
   }
 
-  void spawnGoldmob() {
+  void spawnGoldMob() {
     double top = rng.nextDouble() * (screenSize.height - tileSize);
     goldMobs.add(GoldMob(this, 0.0, top, flameUtil));
   }
