@@ -9,6 +9,7 @@ import 'package:tap_cube/components/user.dart';
 import 'package:tap_cube/components/mob/mob.dart';
 import 'package:tap_cube/components/mob/boss.dart';
 import 'package:tap_cube/components/mob/goldmob.dart';
+import 'package:tap_cube/components/hud/damage.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -24,8 +25,12 @@ class GameView extends Game {
     nonPersonalizedAds: true,
   );
 
-  Size screenSize;
+  int currentUserDamage = 0;
   double tileSize;
+
+  List<DamageDisplay> damageDisplays;
+
+  Size screenSize;
   Background background;
   User user;
   Mob mob;
@@ -34,7 +39,6 @@ class GameView extends Game {
   FirebaseAnalytics analytics;
   FirebaseAnalyticsObserver observer;
   Random rng;
-  int newGoldMobSpawnTimeStamp;
 
   GameView() {
     initialize();
@@ -44,6 +48,7 @@ class GameView extends Game {
     resize(await Flame.util.initialDimensions());
     background = Background(this);
     goldMobs = List<GoldMob>();
+    damageDisplays = List<DamageDisplay>();
     rng = Random();
 
     spawnMob();
@@ -63,10 +68,11 @@ class GameView extends Game {
     user.render(canvas);
     goldMobs.forEach((GoldMob goldMob) {
       if(goldMob.newSpawnTime <= DateTime.now().millisecondsSinceEpoch){
-        print("render");
-        print(goldMob.newSpawnTime);
         goldMob.render(canvas);
       }
+    });
+    damageDisplays.forEach((DamageDisplay damageDisplay) {
+      damageDisplay.render(canvas);
     });
   }
 
@@ -76,6 +82,8 @@ class GameView extends Game {
     if(goldMobs.isEmpty){
       spawnGoldMob();
     }
+    damageDisplays.forEach((DamageDisplay damageDisplay) => damageDisplay.update(t));
+    damageDisplays.forEach((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
   }
 
   void resize(Size size) {
@@ -105,7 +113,8 @@ class GameView extends Game {
 
   void spawnUser() {
     user = User(this, ((screenSize.width - tileSize) / 2),
-        ((screenSize.height - tileSize) / 1.5));
+        ((screenSize.height - tileSize) / 1.5), 1, 1, 0);
+    currentUserDamage = user.currentDamage;
   }
 
   void spawnMob() {
@@ -119,9 +128,14 @@ class GameView extends Game {
   }
 
   void spawnGoldMob() {
-
     double top = rng.nextDouble() * (screenSize.height - tileSize);
     goldMobs.add(GoldMob(this, 0.0, top));
+  }
+
+  void addDamage(){
+    if(damageDisplays.isNotEmpty){
+      damageDisplays.add(DamageDisplay(this, user.currentDamage));
+    }
   }
 
   void onTapDown(TapDownDetails d) {
@@ -130,11 +144,11 @@ class GameView extends Game {
         if (goldMob.mobRect.contains(d.globalPosition)) {
           goldMob.onTapDown(d);
         } else {
-          print("make damage");
+          addDamage();
         }
       });
     }else{
-      print("make damage");
+      addDamage();
     }
 
     /*analytics.logEvent(name: 'levelup', parameters: <String, dynamic>{
