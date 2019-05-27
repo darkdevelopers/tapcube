@@ -83,7 +83,7 @@ class GameView extends Game {
       spawnGoldMob();
     }
     damageDisplays.forEach((DamageDisplay damageDisplay) => damageDisplay.update(t));
-    damageDisplays.forEach((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
+    damageDisplays.removeWhere((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
   }
 
   void resize(Size size) {
@@ -133,9 +133,7 @@ class GameView extends Game {
   }
 
   void addDamage(){
-    if(damageDisplays.isNotEmpty){
-      damageDisplays.add(DamageDisplay(this, user.currentDamage));
-    }
+    damageDisplays.add(DamageDisplay(this, user.currentDamage));
   }
 
   void onTapDown(TapDownDetails d) {
