@@ -83,7 +83,6 @@ class GameView extends Game {
     }
     damageDisplays.forEach((DamageDisplay damageDisplay) => damageDisplay.update(t));
     damageDisplays.removeWhere((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
-
     mob.update(t);
   }
 
@@ -134,8 +133,10 @@ class GameView extends Game {
   }
 
   void addDamage(){
-    damageDisplays.add(DamageDisplay(this, user.currentDamage));
-    mob.mobBar.addDamage(user.currentDamage);
+    if(!mob.isDead) {
+      damageDisplays.add(DamageDisplay(this, user.currentDamage));
+      mob.mobBar.addDamage(user.currentDamage);
+    }
   }
 
   void onTapDown(TapDownDetails d) {
