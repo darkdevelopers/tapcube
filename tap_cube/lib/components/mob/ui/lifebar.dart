@@ -37,7 +37,8 @@ class LifeBar {
     );
     barPaint = new Paint();
     livePaint = new Paint();
-    liveTextPaint.text = new TextSpan(text: "${currentMobLife.toString()} / ${mobLife.toString()} HP");
+    liveTextPaint.text = new TextSpan(
+        text: "${currentMobLife.toString()} / ${mobLife.toString()} HP");
     barPaint.color = new Color.fromRGBO(180, 180, 180, 1);
     livePaint.color = new Color.fromRGBO(255, 0, 0, 1);
     barRect = new Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 3.35),
@@ -49,7 +50,7 @@ class LifeBar {
   Offset getTextLocation() {
     double left = ((gv.screenSize.width - gv.tileSize) / 1.7);
     double top = ((gv.screenSize.height - gv.tileSize) / 10) + 2;
-    return  Offset(left, top);
+    return Offset(left, top);
   }
 
   void render(Canvas c) {
@@ -65,7 +66,8 @@ class LifeBar {
     if (lifeWidth != 0) {
       lifeWidth -= damage * mobLife * 2;
       currentMobLife -= damage;
-      liveTextPaint.text = new TextSpan(text: "${currentMobLife.toString()} / ${mobLife.toString()} HP");
+      liveTextPaint.text = new TextSpan(
+          text: "${currentMobLife.toString()} / ${mobLife.toString()} HP");
       liveRect = new Rect.fromLTWH(
           left, ((gv.screenSize.height - gv.tileSize) / 10) + 2, lifeWidth, 16);
     }
