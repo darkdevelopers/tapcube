@@ -46,6 +46,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/bg/background.png
+    - assets/images/user/user.png
+    - assets/images/mobs/boss.png
+    - assets/images/mobs/goldmob.png
+    - assets/images/mobs/trashmob.png
   #  - locale/i18n_de.json
   #  - locale/i18n_en.json
 

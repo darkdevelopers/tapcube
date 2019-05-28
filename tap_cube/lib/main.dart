@@ -11,13 +11,17 @@ void main() async {
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
 
   Flame.images.loadAll(<String>[
-    'bg/background.png'
+    'bg/background.png',
+    'user/user.png',
+    'mobs/trashmob.png',
+    'mobs/goldmob.png',
+    'mobs/boss.png'
   ]);
 
   GameView gv = new GameView();
   runApp(gv.widget);
 
-  TapGestureRecognizer tapper = TapGestureRecognizer();
-  tapper.onTapDown = gv.onTapDown;
-  flameUtil.addGestureRecognizer(tapper);
+  TapGestureRecognizer tapperGameView = TapGestureRecognizer();
+  tapperGameView.onTapDown = gv.onTapDown;
+  flameUtil.addGestureRecognizer(tapperGameView);
 }
