@@ -9,9 +9,10 @@ class Mob {
   Rect mobRect;
   Sprite mobSprite;
   double start = 0;
+  bool isDead = false;
 
 
-  Mob(this.gv, double left, double top, {double live = 10}) {
+  Mob(this.gv, double left, double top, double live) {
     mobBar = LifeBar(gv, live);
     mobSprite = Sprite('mobs/trashmob.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize * 3, gv.tileSize * 3);
@@ -22,5 +23,9 @@ class Mob {
     mobBar.render(c);
   }
 
-  void update(double t) {}
+  void update(double t) {
+    if(mobBar.currentMobLife <= 0) {
+      isDead = true;
+    }
+  }
 }

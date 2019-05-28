@@ -13,7 +13,7 @@ class GoldMob extends Mob {
 
   double get speed => gv.tileSize * 0.5;
 
-  GoldMob(GameView gv, double left, double top) : super (gv, left, top) {
+  GoldMob(GameView gv, double left, double top, double live) : super (gv, left, top, live) {
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
     Duration duration = Duration(minutes: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;

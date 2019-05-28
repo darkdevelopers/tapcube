@@ -48,7 +48,7 @@ class LifeBar {
   }
 
   Offset getTextLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.7);
+    double left = ((gv.screenSize.width - gv.tileSize) / 1.75);
     double top = ((gv.screenSize.height - gv.tileSize) / 10) + 2;
     return Offset(left, top);
   }
@@ -63,15 +63,15 @@ class LifeBar {
   void update(double t) {}
 
   void addDamage(int damage) {
-    if (lifeWidth != 0) {
-      lifeWidth -= damage * mobLife * 2;
+    if (currentMobLife > 0.0) {
+      lifeWidth -= damage / mobLife * 200;
       currentMobLife -= damage;
       liveTextPaint.text = new TextSpan(
           text: "${currentMobLife.toString()} / ${mobLife.toString()} HP");
       liveRect = new Rect.fromLTWH(
           left, ((gv.screenSize.height - gv.tileSize) / 10) + 2, lifeWidth, 16);
     }
-    if (lifeWidth <= 0) {
+    if (currentMobLife <= 0.0) {
       lifeWidth = 0;
     }
   }
