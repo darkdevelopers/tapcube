@@ -9,6 +9,7 @@ import 'package:tap_cube/components/mob/mob.dart';
 import 'package:tap_cube/components/mob/boss.dart';
 import 'package:tap_cube/components/mob/goldmob.dart';
 import 'package:tap_cube/components/hud/damage.dart';
+import 'package:tap_cube/components/hud/stage.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -28,6 +29,7 @@ class GameView extends Game {
   double tileSize;
 
   List<DamageDisplay> damageDisplays;
+  StageDisplay stageDisplay;
 
   Size screenSize;
   Background background;
@@ -48,6 +50,7 @@ class GameView extends Game {
     background = Background(this);
     goldMobs = List<GoldMob>();
     damageDisplays = List<DamageDisplay>();
+    stageDisplay = StageDisplay(this);
     rng = Random();
 
     spawnMob();
@@ -73,6 +76,7 @@ class GameView extends Game {
     damageDisplays.forEach((DamageDisplay damageDisplay) {
       damageDisplay.render(canvas);
     });
+    stageDisplay.render(canvas);
   }
 
   void update(double t) {
@@ -84,6 +88,15 @@ class GameView extends Game {
     damageDisplays.forEach((DamageDisplay damageDisplay) => damageDisplay.update(t));
     damageDisplays.removeWhere((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
     mob.update(t);
+    if(mob.isDead){
+      stageDisplay.incrementLevel();
+      stageDisplay.update(t);
+      if(stageDisplay.currentLevelInStage < 8) {
+        spawnMob();
+      }else{
+        spawnBoss();
+      }
+    }
   }
 
   void resize(Size size) {
@@ -119,12 +132,12 @@ class GameView extends Game {
 
   void spawnMob() {
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1), (((1*1.5)+(1/10+1))*2*10*1));
+        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*2*10*1));
   }
 
   void spawnBoss() {
     boss = Boss(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1), (((1*1.5)+(1/10+1))*5*10*2.5));
+        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*5*10*2.5));
   }
 
   void spawnGoldMob() {
