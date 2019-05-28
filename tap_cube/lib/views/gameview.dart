@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flame/flame.dart';
-import 'package:flame/util.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:tap_cube/components/background.dart';
@@ -134,6 +133,7 @@ class GameView extends Game {
 
   void addDamage(){
     damageDisplays.add(DamageDisplay(this, user.currentDamage));
+    mob.mobBar.addDamage(user.currentDamage);
   }
 
   void onTapDown(TapDownDetails d) {
