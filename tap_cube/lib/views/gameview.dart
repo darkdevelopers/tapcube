@@ -10,6 +10,7 @@ import 'package:tap_cube/components/mob/boss.dart';
 import 'package:tap_cube/components/mob/goldmob.dart';
 import 'package:tap_cube/components/hud/damage.dart';
 import 'package:tap_cube/components/hud/stage.dart';
+import 'package:tap_cube/components/hud/money.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -30,6 +31,7 @@ class GameView extends Game {
 
   List<DamageDisplay> damageDisplays;
   StageDisplay stageDisplay;
+  MoneyDisplay moneyDisplay;
 
   Size screenSize;
   Background background;
@@ -51,6 +53,7 @@ class GameView extends Game {
     goldMobs = List<GoldMob>();
     damageDisplays = List<DamageDisplay>();
     stageDisplay = StageDisplay(this);
+    moneyDisplay = MoneyDisplay(this);
     rng = Random();
 
     spawnMob();
@@ -77,6 +80,7 @@ class GameView extends Game {
       damageDisplay.render(canvas);
     });
     stageDisplay.render(canvas);
+    moneyDisplay.render(canvas);
   }
 
   void update(double t) {
@@ -89,6 +93,8 @@ class GameView extends Game {
     damageDisplays.removeWhere((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
     mob.update(t);
     if(mob.isDead){
+      moneyDisplay.addMoney(mob.lootMoney);
+      moneyDisplay.update(t);
       stageDisplay.incrementLevel();
       stageDisplay.update(t);
       if(stageDisplay.currentLevelInStage < 8) {

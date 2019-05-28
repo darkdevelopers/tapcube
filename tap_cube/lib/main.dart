@@ -15,7 +15,8 @@ void main() async {
     'user/user.png',
     'mobs/trashmob.png',
     'mobs/goldmob.png',
-    'mobs/boss.png'
+    'mobs/boss.png',
+    'hud/muenze.png'
   ]);
 
   GameView gv = new GameView();

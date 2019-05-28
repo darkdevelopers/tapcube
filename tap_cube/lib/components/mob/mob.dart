@@ -10,7 +10,7 @@ class Mob {
   Sprite mobSprite;
   double start = 0;
   bool isDead = false;
-
+  int lootMoney = 0;
 
   Mob(this.gv, double left, double top, double live) {
     mobBar = LifeBar(gv, live);
