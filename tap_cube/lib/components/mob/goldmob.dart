@@ -1,21 +1,26 @@
 import 'dart:ui';
 import 'package:flame/sprite.dart';
-import 'package:tap_cube/game/gameview.dart';
-import 'package:tap_cube/components/mob.dart';
+import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/firebase/Ads.dart';
+import 'package:tap_cube/components/mob/mob.dart';
 import 'package:flutter/gestures.dart';
 
 class GoldMob extends Mob {
-  Offset targetLocation;
+  int newSpawnTime = 0;
+  int minDelay = 5;
+  int maxDelay = 10;
   bool isOffScreen = false;
   bool isTabed = false;
   bool isSpawned = false;
   Ads ads;
-  
+  Offset targetLocation;
   double get speed => gv.tileSize * 0.5;
 
-  GoldMob(GameView gv, double left, double top) : super (gv, left, top) {
+  GoldMob(GameView gv, double left, double top, double live) : super (gv, left, top, live) {
     isSpawned = true;
+    int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
+    Duration duration = Duration(minutes: delay);
+    newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
