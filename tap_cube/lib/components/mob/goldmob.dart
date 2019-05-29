@@ -7,8 +7,8 @@ import 'package:flutter/gestures.dart';
 
 class GoldMob extends Mob {
   int newSpawnTime = 0;
-  int minDelay = 5;
-  int maxDelay = 10;
+  int minDelay = 10;
+  int maxDelay = 20;
   bool isOffScreen = false;
   bool isTabed = false;
   bool isSpawned = false;
@@ -18,7 +18,7 @@ class GoldMob extends Mob {
 
   GoldMob(GameView gv, double left, double top, double live, int _stage, int _monsterLevel) : super (gv, left, top, live, _stage, _monsterLevel) {
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
-    Duration duration = Duration(minutes: delay);
+    Duration duration = Duration(seconds: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');

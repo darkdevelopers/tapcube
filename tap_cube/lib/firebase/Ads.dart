@@ -7,10 +7,20 @@ const String testDevice = 'IphoneSimulator';
 class Ads {
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     testDevices: testDevice != null ? <String>[testDevice] : null,
-    keywords: <String>['idle', 'best games', 'games', 'fun games', 'play free online games', 'play games', 'top games'],
+    keywords: <String>[
+      'idle',
+      'best games',
+      'games',
+      'fun games',
+      'play free online games',
+      'play games',
+      'top games'
+    ],
     childDirected: true,
     nonPersonalizedAds: true,
   );
+
+  static const MobileAdTargetingInfo targetingInfoRelease = MobileAdTargetingInfo();
 
   void init() {
     if (kReleaseMode) {
@@ -37,16 +47,22 @@ class Ads {
     };
     if (kReleaseMode) {
       RewardedVideoAd.instance
-          .load(adUnitId: getAppId(), targetingInfo: targetingInfo);
+          .load(adUnitId: getAdUnitId(), targetingInfo: targetingInfoRelease);
     } else {
       RewardedVideoAd.instance.load(
           adUnitId: RewardedVideoAd.testAdUnitId, targetingInfo: targetingInfo);
     }
   }
 
-  String getAppId() {
+  String getAdUnitId() {
     return Platform.isAndroid
         ? 'ca-app-pub-8089412545634153/6410165060'
-        : 'ca-app-pub-8089412545634153/6410165060';
+        : 'ca-app-pub-8089412545634153/5863370155';
+  }
+
+  String getAppId() {
+    return Platform.isAndroid
+        ? 'ca-app-pub-8089412545634153~3097783620'
+        : 'ca-app-pub-8089412545634153~7096560778';
   }
 }

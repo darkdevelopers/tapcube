@@ -12,9 +12,11 @@ void main() async {
   await flameUtil.fullScreen();
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
 
+
   SaveGame saveGame = SaveGame();
   String saveGameData = await saveGame.getSaveGame();
-
+  print("running");
+  print(saveGameData);
   Flame.images.loadAll(<String>[
     'bg/background.png',
     'user/user.png',

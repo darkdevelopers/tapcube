@@ -5,7 +5,7 @@ import 'package:tap_cube/views/gameview.dart';
 class DamageDisplay {
   final GameView gv;
   TextPainter painter;
-  TextStyle textStyle;
+  TextStyle textStyleDmg;
   double damage;
   bool isOffScreen = false;
   Offset targetLocation;
@@ -21,8 +21,9 @@ class DamageDisplay {
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     );
-    textStyle = TextStyle(
-      color: Color.fromRGBO(233, 22, 15, 0.9),
+    //fromRGBO(233, 22, 15, 1)
+    textStyleDmg = TextStyle(
+      color: Color(0xffe9160f),
       fontSize: 40,
       fontWeight: FontWeight.bold,
       shadows: <Shadow>[
@@ -36,7 +37,7 @@ class DamageDisplay {
   }
 
   void setTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 2);
+    double left = ((gv.screenSize.width - gv.tileSize) / 3);
     double top =  ((gv.screenSize.height - gv.tileSize) / 2) - start;
     targetLocation = Offset(left, top);
   }
@@ -53,9 +54,23 @@ class DamageDisplay {
       isOffScreen = true;
     }
 
+    //fromRGBO(233, 22, 15, 1)
+    textStyleDmg = TextStyle(
+      color: Color(0xffe9160f),
+      fontSize: 40,
+      fontWeight: FontWeight.bold,
+      shadows: <Shadow>[
+        Shadow(
+          blurRadius: 7,
+          color: Color(0xff000000),
+          offset: Offset(3, 3),
+        ),
+      ],
+    );
+
     painter.text = TextSpan(
-      text: damage.toStringAsFixed(2),
-      style: textStyle,
+      text: "${damage.toStringAsFixed(2)} DMG",
+      style: textStyleDmg,
     );
 
     setTargetLocation();
