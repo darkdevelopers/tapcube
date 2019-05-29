@@ -86,7 +86,7 @@ class GameView extends Game {
 
   void update(double t) {
     goldMobs.forEach((GoldMob goldMob) => goldMob.update(t));
-    goldMobs.removeWhere((GoldMob goldMob) => goldMob.isOffScreen);
+    goldMobs.removeWhere((GoldMob goldMob) => goldMob.isOffScreen && goldMob.isSpawned);
     if (goldMobs.isEmpty) {
       spawnGoldMob();
     }

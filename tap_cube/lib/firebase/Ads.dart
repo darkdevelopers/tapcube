@@ -13,9 +13,11 @@ class Ads {
 
   void init(){
     FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+    print('init ads');
   }
 
   void loadVideoAds(){
+    print('loading ads');
     RewardedVideoAd.instance.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}){
       print("RewardedVideoAd event $event");
       if(event == RewardedVideoAdEvent.loaded){

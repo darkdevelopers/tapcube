@@ -17,7 +17,6 @@ class GoldMob extends Mob {
   double get speed => gv.tileSize * 0.5;
 
   GoldMob(GameView gv, double left, double top, double live, int _stage, int _monsterLevel) : super (gv, left, top, live, _stage, _monsterLevel) {
-    isSpawned = true;
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
     Duration duration = Duration(minutes: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
@@ -40,21 +39,25 @@ class GoldMob extends Mob {
 
   @override
   void render(Canvas c) {
+    isSpawned = true;
     mobSprite.renderRect(c, mobRect.inflate(10));
   }
 
   @override
   void update(double t) {
-    double stepDistance = speed * t;
-    Offset toTarget = targetLocation - Offset(mobRect.left, mobRect.top);
-    Offset stepToTarget = Offset.fromDirection(toTarget.direction, stepDistance);
-    if(mobRect.left < gv.screenSize.width) {
-      start += 0.1;
-    }else{
-      isOffScreen = true;
+    if(isSpawned) {
+      double stepDistance = speed * t;
+      Offset toTarget = targetLocation - Offset(mobRect.left, mobRect.top);
+      Offset stepToTarget = Offset.fromDirection(
+          toTarget.direction, stepDistance);
+      if (mobRect.left < gv.screenSize.width) {
+        start += 0.1;
+      } else {
+        isOffScreen = true;
+      }
+      mobRect = mobRect.shift(stepToTarget);
+      setTargetLocation();
     }
-    mobRect = mobRect.shift(stepToTarget);
-    setTargetLocation();
   }
 
   void onTapDown(TapDownDetails d) {
