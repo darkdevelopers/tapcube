@@ -2,7 +2,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 class SaveGame {
-  String blankContant = '{"Stage": 1, "MonsterLevelInStage": 1, "UserGold": 0.0,"UserDamage": 1}';
+  String blankContant = '{"Stage": 1, "MonsterLevelInStage": 1, "UserGold": 0.0,"UserDamage": 1, "UserLevel": 0}';
   Future<String> getSaveGame() async {
     if(! await isSaveGameExists()){
       await createSaveGame();

@@ -144,7 +144,7 @@ class GameView extends Game {
 
   void spawnUser() {
     user = User(this, ((screenSize.width - tileSize) / 2),
-        ((screenSize.height - tileSize) / 1.5), saveGameDataArray['UserDamage']);
+        ((screenSize.height - tileSize) / 1.5), saveGameDataArray['UserDamage'], saveGameDataArray['UserLevel']);
   }
 
   void spawnMob() {
