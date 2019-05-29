@@ -15,9 +15,16 @@ class User {
   Sprite moneySprite;
   TextPainter painter;
   TextPainter dmgPainter;
+  TextPainter userInformationPrinter;
+  TextPainter userTapDmgPrinter;
+  TextPainter userLevelPainter;
   TextStyle textStyle;
+  TextStyle textStyleDmg;
   Offset targetLocation;
   Offset dmgTargetLocation;
+  Offset userInformationTargetLocation;
+  Offset userTapDmgTargetLocation;
+  Offset userLevelTargetLocation;
   int currentDamage;
   double nextDamageUpdate;
   double nextUserLevelPrice;
@@ -25,13 +32,20 @@ class User {
   bool isUpgradeAvailable = false;
 
   User(this.gv, double left, double top, int damage, int _userLevel) {
+    currentDamage = damage;
+    userLevel = _userLevel;
+
+    userSprite = Sprite('user/user.png');
+    userRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
+
+    setUserInformationSystem();
+  }
+
+  void setUserInformationSystem() {
     barPaint = new Paint();
     barPaint.color = new Color.fromRGBO(35, 35, 35, 0.6);
     barRect = new Rect.fromLTWH(0,
         ((gv.screenSize.height - gv.tileSize) / 1.1), gv.screenSize.width, 150);
-
-    userSprite = Sprite('user/user.png');
-    userRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
 
     userDamageSprite = Sprite('hud/interaction.png');
     userDamageRect = Rect.fromLTWH((gv.screenSize.width - gv.tileSize) / 1.3,
@@ -42,8 +56,6 @@ class User {
     moneyRect = Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 1.27),
         ((gv.screenSize.height - gv.tileSize) / 1.055), 20, 20);
 
-    currentDamage = damage;
-    userLevel = _userLevel;
     nextDamageUpdate = (10 + (userLevel / 10 + 1));
     nextUserLevelPrice = (15 * 1.5 * (userLevel / 10 + 1));
 
@@ -56,6 +68,35 @@ class User {
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     );
+
+    userInformationPrinter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+
+    userTapDmgPrinter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+
+    userLevelPainter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+
+    textStyleDmg = TextStyle(
+      color: Color.fromRGBO(255, 255, 255, 0.9),
+      fontSize: 15,
+      fontWeight: FontWeight.bold,
+      shadows: <Shadow>[
+        Shadow(
+          blurRadius: 1,
+          color: Color(0xff000000),
+          offset: Offset(2, 2),
+        ),
+      ],
+    );
+
     textStyle = TextStyle(
       color: Color.fromRGBO(255, 255, 255, 0.9),
       fontSize: 18,
@@ -68,16 +109,37 @@ class User {
         ),
       ],
     );
+
     painter.text = TextSpan(
         style: textStyle,
         text: nextUserLevelPrice.toStringAsFixed(2)
     );
+
     dmgPainter.text = TextSpan(
-        style: textStyle,
-        text: nextDamageUpdate.toStringAsFixed(2)
+        style: textStyleDmg,
+        text: "+ ${nextDamageUpdate.toStringAsFixed(2)} DMG"
     );
+
+    userInformationPrinter.text = TextSpan(
+        style: textStyle,
+        text: "Player Informations"
+    );
+
+    userTapDmgPrinter.text = TextSpan(
+        style: textStyle,
+        text: "Tapdamage: ${currentDamage.toStringAsFixed(2)}"
+    );
+
+    userLevelPainter.text = TextSpan(
+        style: textStyle,
+        text: "Level: ${userLevel.toString()}"
+    );
+
     setTargetLocation();
     setDmgTargetLocation();
+    setUserInformationTargetLocation();
+    setUserLevelTargetLocation();
+    setUserTapDmgTargetLocation();
     checkUpgradeAvailable();
   }
 
@@ -88,31 +150,59 @@ class User {
   }
 
   void setDmgTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.155);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.057);
+    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
     dmgTargetLocation = Offset(left, top);
   }
 
+  void setUserInformationTargetLocation() {
+    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
+    userInformationTargetLocation = Offset(left, top);
+  }
+
+  void setUserTapDmgTargetLocation() {
+    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
+    userTapDmgTargetLocation = Offset(left, top);
+  }
+
+  void setUserLevelTargetLocation() {
+    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
+    userLevelTargetLocation = Offset(left, top);
+  }
+
   void checkUpgradeAvailable() {
-    if(gv.moneyDisplay.currentMoney >= nextUserLevelPrice){
+    if (gv.moneyDisplay.currentMoney >= nextUserLevelPrice) {
       isUpgradeAvailable = true;
-    }else{
+    } else {
       isUpgradeAvailable = false;
     }
   }
 
   void render(Canvas c) {
-    c.drawRect(barRect, barPaint);
     userSprite.renderRect(c, userRect.inflate(2));
-    if(isUpgradeAvailable) {
+    c.drawRect(barRect, barPaint);
+    if (isUpgradeAvailable) {
       userDamageSprite.renderRect(c, userDamageRect);
       moneySprite.renderRect(c, moneyRect);
       painter.layout();
       painter.paint(c, targetLocation);
+      dmgPainter.layout();
+      dmgPainter.paint(c, dmgTargetLocation);
     }
+    userInformationPrinter.layout();
+    userInformationPrinter.paint(c, userInformationTargetLocation);
+    
+    userTapDmgPrinter.layout();
+    userTapDmgPrinter.paint(c, userTapDmgTargetLocation);
+    
+    userLevelPainter.layout();
+    userLevelPainter.paint(c, userLevelTargetLocation);
   }
 
   void update(double t) {
-
+    checkUpgradeAvailable();
   }
 }

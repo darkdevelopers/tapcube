@@ -96,6 +96,7 @@ class GameView extends Game {
     damageDisplay.isOffScreen);
     spawnMonster();
     updateMonster(t);
+    user.update(t);
   }
 
   void spawnMonster() {
