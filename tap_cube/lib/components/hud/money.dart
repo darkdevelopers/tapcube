@@ -16,7 +16,8 @@ class MoneyDisplay {
     currentMoney = money;
     setTargetLocation();
     moneySprite = Sprite('hud/muenze.png');
-    moneyRect = Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 3.25), ((gv.screenSize.height - gv.tileSize) / 9.5), 25, 25);
+    moneyRect = Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 3.25),
+        ((gv.screenSize.height - gv.tileSize) / 9.5), 25, 25);
     painter = TextPainter(
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
@@ -51,8 +52,12 @@ class MoneyDisplay {
     painter.paint(c, targetLocation);
   }
 
-  void addMoney(double money){
+  void addMoney(double money) {
     currentMoney += money;
+  }
+
+  void removeMoney(double money) {
+    currentMoney -= money;
   }
 
   void update(double t) {

@@ -135,6 +135,8 @@ class GameView extends Game {
     saveGameDataArray['Stage'] = stageDisplay.currentStage;
     saveGameDataArray['MonsterLevelInStage'] = stageDisplay.currentLevelInStage;
     saveGameDataArray['UserGold'] = moneyDisplay.currentMoney;
+    saveGameDataArray['UserDamage'] = user.currentDamage;
+    saveGameDataArray['UserLevel'] = user.userLevel;
     saveGame.setSaveGame(jsonEncode(saveGameDataArray));
   }
 
@@ -149,18 +151,24 @@ class GameView extends Game {
   }
 
   void spawnMob() {
+    double life = 0.0;
+    if((stageDisplay.currentStage == 1 && stageDisplay.currentLevelInStage == 1) || (stageDisplay.currentStage == 1 && stageDisplay.currentLevelInStage == 2)){
+      life = 10 * ((stageDisplay.currentLevelInStage / 10) + 1);
+    }else {
+      life = (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 10 + stageDisplay.currentStage)) +
+          (stageDisplay.currentLevelInStage / 10 + 1) * (user.userLevel)) * 2 * 10 * 1) * 4;
+    }
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
-        (((stageDisplay.currentStage * 1.5) +
-            (stageDisplay.currentLevelInStage / 10 + 1)) * 2 * 10 * 1),
+        life,
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
   void spawnBoss() {
     boss = Boss(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
-        (((stageDisplay.currentStage * 1.5) +
-            (stageDisplay.currentLevelInStage / 10 + 1)) * 5 * 10 * 2.5),
+        (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 5 + stageDisplay.currentStage)) +
+            (stageDisplay.currentLevelInStage / 10 + 1) * (user.userLevel / 2)) * 2 * 10 * 1) * 5,
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
@@ -190,11 +198,21 @@ class GameView extends Game {
         if (goldMob.mobRect.contains(d.globalPosition)) {
           goldMob.onTapDown(d);
         } else {
-          addDamage();
+          if(user.userDamageRect.contains(d.globalPosition) && user.isUpgradeAvailable){
+            user.upgradeUser();
+            updateSaveGame();
+          }else {
+            addDamage();
+          }
         }
       });
     } else {
-      addDamage();
+      if(user.userDamageRect.contains(d.globalPosition) && user.isUpgradeAvailable){
+        user.upgradeUser();
+        updateSaveGame();
+      }else {
+        addDamage();
+      }
     }
 
     /*analytics.logEvent(name: 'levelup', parameters: <String, dynamic>{

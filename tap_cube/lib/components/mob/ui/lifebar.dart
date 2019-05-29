@@ -38,7 +38,7 @@ class LifeBar {
     barPaint = new Paint();
     livePaint = new Paint();
     liveTextPaint.text = new TextSpan(
-        text: "${currentMobLife.toString()} / ${mobLife.toString()} HP");
+        text: "${currentMobLife.toStringAsFixed(1)} / ${mobLife.toStringAsFixed(1)} HP");
     barPaint.color = new Color.fromRGBO(180, 180, 180, 1);
     livePaint.color = new Color.fromRGBO(255, 0, 0, 1);
     barRect = new Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 3.35),
@@ -62,12 +62,12 @@ class LifeBar {
 
   void update(double t) {}
 
-  void addDamage(int damage) {
+  void addDamage(double damage) {
     if (currentMobLife > 0.0) {
       lifeWidth -= damage / mobLife * 200;
       currentMobLife -= damage;
       liveTextPaint.text = new TextSpan(
-          text: "${currentMobLife.toString()} / ${mobLife.toString()} HP");
+          text: "${currentMobLife.toStringAsFixed(1)} / ${mobLife.toStringAsFixed(1)} HP");
       liveRect = new Rect.fromLTWH(
           left, ((gv.screenSize.height - gv.tileSize) / 7) + 2, lifeWidth, 16);
     }

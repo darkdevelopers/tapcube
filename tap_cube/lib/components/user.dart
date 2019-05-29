@@ -25,13 +25,13 @@ class User {
   Offset userInformationTargetLocation;
   Offset userTapDmgTargetLocation;
   Offset userLevelTargetLocation;
-  int currentDamage;
+  double currentDamage;
   double nextDamageUpdate;
   double nextUserLevelPrice;
   int userLevel;
   bool isUpgradeAvailable = false;
 
-  User(this.gv, double left, double top, int damage, int _userLevel) {
+  User(this.gv, double left, double top, double damage, int _userLevel) {
     currentDamage = damage;
     userLevel = _userLevel;
 
@@ -39,6 +39,38 @@ class User {
     userRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
 
     setUserInformationSystem();
+  }
+
+  void calculatePriceAndDamage(){
+    nextDamageUpdate = (5 + (userLevel / 10 + 1) * 1.05) + (((userLevel + 1.05) / 10) + 1.05);
+    nextUserLevelPrice = (13 * 1.25 * (userLevel / 10 + 1)) * (1.5 * userLevel);
+  }
+
+  void printText(){
+    painter.text = TextSpan(
+        style: textStyle,
+        text: nextUserLevelPrice.toStringAsFixed(2)
+    );
+
+    dmgPainter.text = TextSpan(
+        style: textStyleDmg,
+        text: "+ ${nextDamageUpdate.toStringAsFixed(2)} DMG"
+    );
+
+    userInformationPrinter.text = TextSpan(
+        style: textStyle,
+        text: "Player Informations"
+    );
+
+    userTapDmgPrinter.text = TextSpan(
+        style: textStyle,
+        text: "Tapdamage: ${currentDamage.toStringAsFixed(2)} DMG"
+    );
+
+    userLevelPainter.text = TextSpan(
+        style: textStyle,
+        text: "Level: ${userLevel.toString()}"
+    );
   }
 
   void setUserInformationSystem() {
@@ -56,8 +88,7 @@ class User {
     moneyRect = Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 1.27),
         ((gv.screenSize.height - gv.tileSize) / 1.055), 20, 20);
 
-    nextDamageUpdate = (10 + (userLevel / 10 + 1));
-    nextUserLevelPrice = (15 * 1.5 * (userLevel / 10 + 1));
+    calculatePriceAndDamage();
 
     painter = TextPainter(
       textAlign: TextAlign.center,
@@ -110,30 +141,7 @@ class User {
       ],
     );
 
-    painter.text = TextSpan(
-        style: textStyle,
-        text: nextUserLevelPrice.toStringAsFixed(2)
-    );
-
-    dmgPainter.text = TextSpan(
-        style: textStyleDmg,
-        text: "+ ${nextDamageUpdate.toStringAsFixed(2)} DMG"
-    );
-
-    userInformationPrinter.text = TextSpan(
-        style: textStyle,
-        text: "Player Informations"
-    );
-
-    userTapDmgPrinter.text = TextSpan(
-        style: textStyle,
-        text: "Tapdamage: ${currentDamage.toStringAsFixed(2)} DMG"
-    );
-
-    userLevelPainter.text = TextSpan(
-        style: textStyle,
-        text: "Level: ${userLevel.toString()}"
-    );
+    printText();
 
     setTargetLocation();
     setDmgTargetLocation();
@@ -181,6 +189,14 @@ class User {
     }
   }
 
+  void upgradeUser(){
+    if(isUpgradeAvailable){
+      gv.moneyDisplay.removeMoney(nextUserLevelPrice);
+      currentDamage += nextDamageUpdate;
+      userLevel += 1;
+    }
+  }
+
   void render(Canvas c) {
     userSprite.renderRect(c, userRect.inflate(2));
     c.drawRect(barRect, barPaint);
@@ -204,5 +220,8 @@ class User {
 
   void update(double t) {
     checkUpgradeAvailable();
+    calculatePriceAndDamage();
+    printText();
+    gv.moneyDisplay.update(t);
   }
 }
