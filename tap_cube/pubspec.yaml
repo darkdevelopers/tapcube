@@ -51,6 +51,7 @@ flutter:
     - assets/images/mobs/goldmob.png
     - assets/images/mobs/trashmob.png
     - assets/images/hud/muenze.png
+    - assets/images/hud/interaction.png
   #  - locale/i18n_de.json
   #  - locale/i18n_en.json
 

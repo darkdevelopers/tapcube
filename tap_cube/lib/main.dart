@@ -12,8 +12,8 @@ void main() async {
   await flameUtil.fullScreen();
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
 
-  SaveGame savegame = SaveGame();
-  String saveGameData = await savegame.getSaveGame();
+  SaveGame saveGame = SaveGame();
+  String saveGameData = await saveGame.getSaveGame();
 
   Flame.images.loadAll(<String>[
     'bg/background.png',
@@ -21,10 +21,11 @@ void main() async {
     'mobs/trashmob.png',
     'mobs/goldmob.png',
     'mobs/boss.png',
-    'hud/muenze.png'
+    'hud/muenze.png',
+    'hud/interaction.png'
   ]);
 
-  GameView gv = new GameView(savegame, jsonDecode(saveGameData));
+  GameView gv = new GameView(saveGame, jsonDecode(saveGameData));
   runApp(gv.widget);
 
   TapGestureRecognizer tapperGameView = TapGestureRecognizer();
