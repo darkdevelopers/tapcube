@@ -127,7 +127,7 @@ class User {
 
     userTapDmgPrinter.text = TextSpan(
         style: textStyle,
-        text: "Tapdamage: ${currentDamage.toStringAsFixed(2)}"
+        text: "Tapdamage: ${currentDamage.toStringAsFixed(2)} DMG"
     );
 
     userLevelPainter.text = TextSpan(
@@ -144,7 +144,7 @@ class User {
   }
 
   void setTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.155);
+    double left = ((gv.screenSize.width - gv.tileSize) / 1.15);
     double top = ((gv.screenSize.height - gv.tileSize) / 1.057);
     targetLocation = Offset(left, top);
   }
@@ -156,20 +156,20 @@ class User {
   }
 
   void setUserInformationTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
+    double left = ((gv.screenSize.width - gv.tileSize) / 17);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.07);
     userInformationTargetLocation = Offset(left, top);
   }
 
   void setUserTapDmgTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
+    double left = ((gv.screenSize.width - gv.tileSize) / 17);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.04);
     userTapDmgTargetLocation = Offset(left, top);
   }
 
   void setUserLevelTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
+    double left = ((gv.screenSize.width - gv.tileSize) / 17);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.01);
     userLevelTargetLocation = Offset(left, top);
   }
 
