@@ -14,17 +14,21 @@ class User {
   Rect moneyRect;
   Sprite moneySprite;
   TextPainter painter;
+  TextPainter dmgPainter;
   TextStyle textStyle;
   Offset targetLocation;
+  Offset dmgTargetLocation;
   int currentDamage;
-  int nextDamageUpdate;
+  double nextDamageUpdate;
+  double nextUserLevelPrice;
   int userLevel;
+  bool isUpgradeAvailable = false;
 
   User(this.gv, double left, double top, int damage, int _userLevel) {
     barPaint = new Paint();
     barPaint.color = new Color.fromRGBO(35, 35, 35, 0.6);
     barRect = new Rect.fromLTWH(0,
-        ((gv.screenSize.height - gv.tileSize)/1.1), gv.screenSize.width, 150);
+        ((gv.screenSize.height - gv.tileSize) / 1.1), gv.screenSize.width, 150);
 
     userSprite = Sprite('user/user.png');
     userRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
@@ -40,8 +44,15 @@ class User {
 
     currentDamage = damage;
     userLevel = _userLevel;
+    nextDamageUpdate = (10 + (userLevel / 10 + 1));
+    nextUserLevelPrice = (15 * 1.5 * (userLevel / 10 + 1));
 
     painter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+
+    dmgPainter = TextPainter(
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     );
@@ -59,9 +70,15 @@ class User {
     );
     painter.text = TextSpan(
         style: textStyle,
-        text: 0.toString()
+        text: nextUserLevelPrice.toStringAsFixed(2)
+    );
+    dmgPainter.text = TextSpan(
+        style: textStyle,
+        text: nextDamageUpdate.toStringAsFixed(2)
     );
     setTargetLocation();
+    setDmgTargetLocation();
+    checkUpgradeAvailable();
   }
 
   void setTargetLocation() {
@@ -70,14 +87,32 @@ class User {
     targetLocation = Offset(left, top);
   }
 
+  void setDmgTargetLocation() {
+    double left = ((gv.screenSize.width - gv.tileSize) / 1.155);
+    double top = ((gv.screenSize.height - gv.tileSize) / 1.057);
+    dmgTargetLocation = Offset(left, top);
+  }
+
+  void checkUpgradeAvailable() {
+    if(gv.moneyDisplay.currentMoney >= nextUserLevelPrice){
+      isUpgradeAvailable = true;
+    }else{
+      isUpgradeAvailable = false;
+    }
+  }
+
   void render(Canvas c) {
     c.drawRect(barRect, barPaint);
     userSprite.renderRect(c, userRect.inflate(2));
-    userDamageSprite.renderRect(c, userDamageRect);
-    moneySprite.renderRect(c, moneyRect);
-    painter.layout();
-    painter.paint(c, targetLocation);
+    if(isUpgradeAvailable) {
+      userDamageSprite.renderRect(c, userDamageRect);
+      moneySprite.renderRect(c, moneyRect);
+      painter.layout();
+      painter.paint(c, targetLocation);
+    }
   }
 
-  void update(double t) {}
+  void update(double t) {
+
+  }
 }
