@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'dart:convert';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
@@ -113,6 +114,7 @@ class GameView extends Game {
         moneyDisplay.update(t);
         stageDisplay.incrementLevel();
         stageDisplay.update(t);
+        updateSaveGame();
         mob = null;
       }
     } else if (stageDisplay.currentLevelInStage == 8 && boss != null) {
@@ -122,9 +124,17 @@ class GameView extends Game {
         moneyDisplay.update(t);
         stageDisplay.incrementLevel();
         stageDisplay.update(t);
+        updateSaveGame();
         boss = null;
       }
     }
+  }
+
+  void updateSaveGame() {
+    saveGameDataArray['Stage'] = stageDisplay.currentStage;
+    saveGameDataArray['MonsterLevelInStage'] = stageDisplay.currentLevelInStage;
+    saveGameDataArray['UserGold'] = moneyDisplay.currentMoney;
+    saveGame.setSaveGame(jsonEncode(saveGameDataArray));
   }
 
   void resize(Size size) {
