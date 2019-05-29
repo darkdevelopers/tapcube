@@ -11,6 +11,7 @@ import 'package:tap_cube/components/mob/goldmob.dart';
 import 'package:tap_cube/components/hud/damage.dart';
 import 'package:tap_cube/components/hud/stage.dart';
 import 'package:tap_cube/components/hud/money.dart';
+import 'package:tap_cube/savegame.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
@@ -33,7 +34,12 @@ class GameView extends Game {
   Random rng;
   int spawnGoldMobDelay;
 
-  GameView() {
+  SaveGame saveGame;
+  Map<String, dynamic> saveGameDataArray;
+
+  GameView(SaveGame _saveGame, Map<String, dynamic> _saveGameDataArray) {
+    saveGame = _saveGame;
+    saveGameDataArray = _saveGameDataArray;
     initialize();
   }
 
@@ -42,8 +48,8 @@ class GameView extends Game {
     background = Background(this);
     goldMobs = List<GoldMob>();
     damageDisplays = List<DamageDisplay>();
-    stageDisplay = StageDisplay(this);
-    moneyDisplay = MoneyDisplay(this);
+    stageDisplay = StageDisplay(this, saveGameDataArray['Stage'], saveGameDataArray['MonsterLevelInStage']);
+    moneyDisplay = MoneyDisplay(this, saveGameDataArray['UserGold']);
     rng = Random();
     spawnGoldMobDelay = rng.nextInt(600);
     spawnUser();
@@ -56,15 +62,17 @@ class GameView extends Game {
 
   void render(Canvas canvas) {
     background.render(canvas);
-    if(mob != null) {
+    if (mob != null) {
       mob.render(canvas);
     }
-    if(boss != null){
+    if (boss != null) {
       boss.render(canvas);
     }
     user.render(canvas);
     goldMobs.forEach((GoldMob goldMob) {
-      if(goldMob.newSpawnTime <= DateTime.now().millisecondsSinceEpoch){
+      if (goldMob.newSpawnTime <= DateTime
+          .now()
+          .millisecondsSinceEpoch) {
         goldMob.render(canvas);
       }
     });
@@ -78,36 +86,38 @@ class GameView extends Game {
   void update(double t) {
     goldMobs.forEach((GoldMob goldMob) => goldMob.update(t));
     goldMobs.removeWhere((GoldMob goldMob) => goldMob.isOffScreen);
-    if(goldMobs.isEmpty){
+    if (goldMobs.isEmpty) {
       spawnGoldMob();
     }
-    damageDisplays.forEach((DamageDisplay damageDisplay) => damageDisplay.update(t));
-    damageDisplays.removeWhere((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
+    damageDisplays.forEach((DamageDisplay damageDisplay) =>
+        damageDisplay.update(t));
+    damageDisplays.removeWhere((DamageDisplay damageDisplay) =>
+    damageDisplay.isOffScreen);
     spawnMonster();
     updateMonster(t);
   }
 
-  void spawnMonster(){
-    if(stageDisplay.currentLevelInStage < 8 && mob == null){
+  void spawnMonster() {
+    if (stageDisplay.currentLevelInStage < 8 && mob == null) {
       spawnMob();
-    }else if(stageDisplay.currentLevelInStage == 8 && boss == null){
+    } else if (stageDisplay.currentLevelInStage == 8 && boss == null) {
       spawnBoss();
     }
   }
 
-  void updateMonster(double t){
-    if(stageDisplay.currentLevelInStage < 8 && mob != null){
+  void updateMonster(double t) {
+    if (stageDisplay.currentLevelInStage < 8 && mob != null) {
       mob.update(t);
-      if(mob.isDead){
+      if (mob.isDead) {
         moneyDisplay.addMoney(mob.lootMoney);
         moneyDisplay.update(t);
         stageDisplay.incrementLevel();
         stageDisplay.update(t);
         mob = null;
       }
-    }else if(stageDisplay.currentLevelInStage == 8 && boss != null){
+    } else if (stageDisplay.currentLevelInStage == 8 && boss != null) {
       boss.update(t);
-      if(boss.isDead){
+      if (boss.isDead) {
         moneyDisplay.addMoney(boss.lootMoney);
         moneyDisplay.update(t);
         stageDisplay.incrementLevel();
@@ -124,31 +134,38 @@ class GameView extends Game {
 
   void spawnUser() {
     user = User(this, ((screenSize.width - tileSize) / 2),
-        ((screenSize.height - tileSize) / 1.5), 100);
+        ((screenSize.height - tileSize) / 1.5), saveGameDataArray['UserDamage']);
   }
 
   void spawnMob() {
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*2*10*1), stageDisplay.currentStage, stageDisplay.currentLevelInStage);
+        ((screenSize.height - tileSize) / 2.1),
+        (((stageDisplay.currentStage * 1.5) +
+            (stageDisplay.currentLevelInStage / 10 + 1)) * 2 * 10 * 1),
+        stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
   void spawnBoss() {
     boss = Boss(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*5*10*2.5), stageDisplay.currentStage, stageDisplay.currentLevelInStage);
+        ((screenSize.height - tileSize) / 2.1),
+        (((stageDisplay.currentStage * 1.5) +
+            (stageDisplay.currentLevelInStage / 10 + 1)) * 5 * 10 * 2.5),
+        stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
   void spawnGoldMob() {
     double top = rng.nextDouble() * (screenSize.height - tileSize);
-    goldMobs.add(GoldMob(this, 0.0, top, 0, stageDisplay.currentStage, stageDisplay.currentLevelInStage));
+    goldMobs.add(GoldMob(this, 0.0, top, 0, stageDisplay.currentStage,
+        stageDisplay.currentLevelInStage));
   }
 
-  void addDamage(){
-    if(mob != null) {
+  void addDamage() {
+    if (mob != null) {
       if (!mob.isDead) {
         damageDisplays.add(DamageDisplay(this, user.currentDamage));
         mob.mobBar.addDamage(user.currentDamage);
       }
-    }else if(boss != null){
+    } else if (boss != null) {
       if (!boss.isDead) {
         damageDisplays.add(DamageDisplay(this, user.currentDamage));
         boss.mobBar.addDamage(user.currentDamage);
@@ -157,7 +174,7 @@ class GameView extends Game {
   }
 
   void onTapDown(TapDownDetails d) {
-    if(goldMobs.isNotEmpty) {
+    if (goldMobs.isNotEmpty) {
       goldMobs.forEach((GoldMob goldMob) {
         if (goldMob.mobRect.contains(d.globalPosition)) {
           goldMob.onTapDown(d);
@@ -165,7 +182,7 @@ class GameView extends Game {
           addDamage();
         }
       });
-    }else{
+    } else {
       addDamage();
     }
 

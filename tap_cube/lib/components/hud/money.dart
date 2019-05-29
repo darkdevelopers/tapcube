@@ -12,7 +12,8 @@ class MoneyDisplay {
   double currentMoney = 0;
   Offset targetLocation;
 
-  MoneyDisplay(this.gv) {
+  MoneyDisplay(this.gv, double money) {
+    currentMoney = money;
     setTargetLocation();
     moneySprite = Sprite('hud/muenze.png');
     moneyRect = Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 3.25), ((gv.screenSize.height - gv.tileSize) / 9.5), 25, 25);

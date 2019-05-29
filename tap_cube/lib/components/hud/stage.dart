@@ -12,7 +12,9 @@ class StageDisplay {
   int currentStage = 1;
   int currentLevelInStage = 1;
 
-  StageDisplay(this.gv) {
+  StageDisplay(this.gv, int _currentStage, int _currentLevelInStage) {
+    currentStage = _currentStage;
+    currentLevelInStage = _currentLevelInStage;
     setTargetLocation();
     setTargetLocationLevel();
     painter = TextPainter(
