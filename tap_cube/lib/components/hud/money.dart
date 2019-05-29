@@ -9,7 +9,7 @@ class MoneyDisplay {
   Sprite moneySprite;
   TextPainter painter;
   TextStyle textStyle;
-  int currentMoney = 0;
+  double currentMoney = 0;
   Offset targetLocation;
 
   MoneyDisplay(this.gv) {
@@ -34,7 +34,7 @@ class MoneyDisplay {
     );
     painter.text = TextSpan(
         style: textStyle,
-        text: currentMoney.toString()
+        text: currentMoney.toStringAsFixed(2)
     );
   }
 
@@ -50,14 +50,14 @@ class MoneyDisplay {
     painter.paint(c, targetLocation);
   }
 
-  void addMoney(int money){
+  void addMoney(double money){
     currentMoney += money;
   }
 
   void update(double t) {
     painter.text = TextSpan(
         style: textStyle,
-        text: currentMoney.toString()
+        text: currentMoney.toStringAsFixed(2)
     );
   }
 }

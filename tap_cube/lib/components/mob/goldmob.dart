@@ -16,7 +16,7 @@ class GoldMob extends Mob {
   Offset targetLocation;
   double get speed => gv.tileSize * 0.5;
 
-  GoldMob(GameView gv, double left, double top, double live) : super (gv, left, top, live) {
+  GoldMob(GameView gv, double left, double top, double live, int _stage, int _monsterLevel) : super (gv, left, top, live, _stage, _monsterLevel) {
     isSpawned = true;
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
     Duration duration = Duration(minutes: delay);

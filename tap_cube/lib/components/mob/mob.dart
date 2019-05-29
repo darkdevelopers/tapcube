@@ -10,13 +10,22 @@ class Mob {
   Sprite mobSprite;
   double start = 0;
   bool isDead = false;
-  int lootMoney = 0;
+  double lootMoney = 0;
+  int stage = 0;
+  int monsterLevel = 0;
 
-  Mob(this.gv, double left, double top, double live) {
+  Mob(this.gv, double left, double top, double live, int _stage, int _monsterLevel) {
     isDead = false;
+    stage = _stage;
+    monsterLevel = _monsterLevel;
+    calculateLoot();
     mobBar = LifeBar(gv, live);
     mobSprite = Sprite('mobs/trashmob.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize * 3, gv.tileSize * 3);
+  }
+
+  void calculateLoot(){
+    lootMoney = 10 * (stage/10+1) * ((monsterLevel*2)/10+1);
   }
 
   void render(Canvas c) {

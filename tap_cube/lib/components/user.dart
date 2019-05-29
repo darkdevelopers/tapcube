@@ -6,16 +6,12 @@ class User {
   final GameView gv;
   Rect userRect;
   Sprite userSprite;
-  int currentStage;
   int currentDamage;
-  int currentMoney;
 
-  User(this.gv, double left, double top, int stage, int damage, int money) {
+  User(this.gv, double left, double top, int damage) {
     userSprite = Sprite('user/user.png');
     userRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
-    currentStage = stage;
     currentDamage = damage;
-    currentMoney = money;
   }
 
   void render(Canvas c) {

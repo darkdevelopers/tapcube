@@ -85,17 +85,6 @@ class GameView extends Game {
     damageDisplays.removeWhere((DamageDisplay damageDisplay) => damageDisplay.isOffScreen);
     spawnMonster();
     updateMonster(t);
-    /*if(mob.isDead){
-      moneyDisplay.addMoney(mob.lootMoney);
-      moneyDisplay.update(t);
-      stageDisplay.incrementLevel();
-      stageDisplay.update(t);
-      if(stageDisplay.currentLevelInStage < 8) {
-        spawnBoss();
-      }else{
-        spawnMob();
-      }
-    }*/
   }
 
   void spawnMonster(){
@@ -135,22 +124,22 @@ class GameView extends Game {
 
   void spawnUser() {
     user = User(this, ((screenSize.width - tileSize) / 2),
-        ((screenSize.height - tileSize) / 1.5), 1, 100, 0);
+        ((screenSize.height - tileSize) / 1.5), 100);
   }
 
   void spawnMob() {
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*2*10*1));
+        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*2*10*1), stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
   void spawnBoss() {
     boss = Boss(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*5*10*2.5));
+        ((screenSize.height - tileSize) / 2.1), (((stageDisplay.currentStage*1.5)+(stageDisplay.currentLevelInStage/10+1))*5*10*2.5), stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
   void spawnGoldMob() {
     double top = rng.nextDouble() * (screenSize.height - tileSize);
-    goldMobs.add(GoldMob(this, 0.0, top, 0));
+    goldMobs.add(GoldMob(this, 0.0, top, 0, stageDisplay.currentStage, stageDisplay.currentLevelInStage));
   }
 
   void addDamage(){
