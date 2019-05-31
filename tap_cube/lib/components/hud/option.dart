@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flame/sprite.dart';
-import 'package:flutter/painting.dart';
 import 'package:tap_cube/views/gameview.dart';
 
 class OptionDisplay {
