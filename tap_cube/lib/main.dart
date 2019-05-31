@@ -21,9 +21,11 @@ void main() async {
     'bg/background.png',
     'user/user.png',
     'mobs/trashmob.png',
+    'mobs/trashmob-hit.png',
     'mobs/trashmob-dead.png',
     'mobs/goldmob.png',
     'mobs/boss.png',
+    'mobs/boss-hit.png',
     'mobs/boss-dead.png',
     'hud/muenze.png',
     'hud/interaction.png'

@@ -93,7 +93,7 @@ class GameView extends Game {
     damageDisplays.forEach((DamageDisplay damageDisplay) =>
         damageDisplay.update(t));
     damageDisplays.removeWhere((DamageDisplay damageDisplay) =>
-    damageDisplay.isOffScreen);
+      damageDisplay.isOffScreen);
     spawnMonster();
     updateMonster(t);
     user.update(t);
@@ -181,11 +181,13 @@ class GameView extends Game {
   void addDamage() {
     if (mob != null) {
       if (!mob.isDead) {
+        mob.isHited = true;
         damageDisplays.add(DamageDisplay(this, user.currentDamage));
         mob.mobBar.addDamage(user.currentDamage);
       }
     } else if (boss != null) {
       if (!boss.isDead) {
+        boss.isHited = true;
         damageDisplays.add(DamageDisplay(this, user.currentDamage));
         boss.mobBar.addDamage(user.currentDamage);
       }

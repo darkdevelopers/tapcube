@@ -8,6 +8,7 @@ class Boss {
   LifeBar mobBar;
   Rect mobRect;
   Sprite mobSprite;
+  Sprite mobHitSprite;
   Sprite mobDeadSprite;
   double start = 0;
   bool isDead = false;
@@ -15,6 +16,8 @@ class Boss {
   int stage = 0;
   int monsterLevel = 0;
   bool isOffScreen = false;
+  bool isHited = false;
+  int counter = 0;
 
   Boss(this.gv, double left, double top, double live, int _stage, int _monsterLevel) {
     isDead = false;
@@ -23,6 +26,7 @@ class Boss {
     calculateLoot();
     mobBar = LifeBar(gv, live);
     mobSprite = Sprite('mobs/boss.png');
+    mobHitSprite = Sprite('mobs/boss-hit.png');
     mobDeadSprite = Sprite('mobs/boss-dead.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize * 3, gv.tileSize * 3);
   }
@@ -47,6 +51,17 @@ class Boss {
       if(mobRect.top > gv.screenSize.height){
         isOffScreen = true;
       }
+    }
+
+    if(isHited){
+      mobSprite = Sprite('mobs/boss-hit.png');
+      if(counter >= 50) {
+        isHited = false;
+        counter = 0;
+      }
+      counter++;
+    }else{
+      mobSprite = Sprite('mobs/boss.png');
     }
   }
 }
