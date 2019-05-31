@@ -73,6 +73,8 @@ class LifeBar {
     }
     if (currentMobLife <= 0.0) {
       lifeWidth = 0;
+      liveTextPaint.text = new TextSpan(
+          text: "0.0 / ${mobLife.toStringAsFixed(1)} HP");
     }
   }
 }

@@ -110,7 +110,7 @@ class GameView extends Game {
   void updateMonster(double t) {
     if (stageDisplay.currentLevelInStage < 8 && mob != null) {
       mob.update(t);
-      if (mob.isDead) {
+      if (mob.isDead && mob.isOffScreen) {
         moneyDisplay.addMoney(mob.lootMoney);
         moneyDisplay.update(t);
         stageDisplay.incrementLevel();
@@ -120,7 +120,7 @@ class GameView extends Game {
       }
     } else if (stageDisplay.currentLevelInStage == 8 && boss != null) {
       boss.update(t);
-      if (boss.isDead) {
+      if (boss.isDead && boss.isOffScreen) {
         moneyDisplay.addMoney(boss.lootMoney);
         moneyDisplay.update(t);
         stageDisplay.incrementLevel();

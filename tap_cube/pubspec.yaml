@@ -48,8 +48,10 @@ flutter:
     - assets/images/bg/background.png
     - assets/images/user/user.png
     - assets/images/mobs/boss.png
+    - assets/images/mobs/boss-dead.png
     - assets/images/mobs/goldmob.png
     - assets/images/mobs/trashmob.png
+    - assets/images/mobs/trashmob-dead.png
     - assets/images/hud/muenze.png
     - assets/images/hud/interaction.png
   #  - locale/i18n_de.json

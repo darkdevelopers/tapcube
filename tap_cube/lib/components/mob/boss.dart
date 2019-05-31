@@ -8,11 +8,13 @@ class Boss {
   LifeBar mobBar;
   Rect mobRect;
   Sprite mobSprite;
+  Sprite mobDeadSprite;
   double start = 0;
   bool isDead = false;
   double lootMoney = 0;
   int stage = 0;
   int monsterLevel = 0;
+  bool isOffScreen = false;
 
   Boss(this.gv, double left, double top, double live, int _stage, int _monsterLevel) {
     isDead = false;
@@ -21,6 +23,7 @@ class Boss {
     calculateLoot();
     mobBar = LifeBar(gv, live);
     mobSprite = Sprite('mobs/boss.png');
+    mobDeadSprite = Sprite('mobs/boss-dead.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize * 3, gv.tileSize * 3);
   }
 
@@ -29,13 +32,21 @@ class Boss {
   }
 
   void render(Canvas c) {
-    mobSprite.renderRect(c, mobRect.inflate(2));
+    if(isDead){
+      mobDeadSprite.renderRect(c, mobRect.inflate(2));
+    }else {
+      mobSprite.renderRect(c, mobRect.inflate(2));
+    }
     mobBar.render(c);
   }
 
   void update(double t) {
     if(mobBar.currentMobLife <= 0) {
       isDead = true;
+      mobRect = mobRect.translate(0, gv.tileSize * 12 * t);
+      if(mobRect.top > gv.screenSize.height){
+        isOffScreen = true;
+      }
     }
   }
 }
