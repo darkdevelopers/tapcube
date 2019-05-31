@@ -28,7 +28,8 @@ void main() async {
     'mobs/boss-hit.png',
     'mobs/boss-dead.png',
     'hud/muenze.png',
-    'hud/interaction.png'
+    'hud/interaction.png',
+    'hud/option.png'
   ]);
 
   GameView gv = new GameView(saveGame, jsonDecode(saveGameData));

@@ -12,6 +12,7 @@ import 'package:tap_cube/components/mob/goldmob.dart';
 import 'package:tap_cube/components/hud/damage.dart';
 import 'package:tap_cube/components/hud/stage.dart';
 import 'package:tap_cube/components/hud/money.dart';
+import 'package:tap_cube/components/hud/option.dart';
 import 'package:tap_cube/savegame.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -23,6 +24,7 @@ class GameView extends Game {
   List<DamageDisplay> damageDisplays;
   StageDisplay stageDisplay;
   MoneyDisplay moneyDisplay;
+  OptionDisplay optionDisplay;
 
   Size screenSize;
   Background background;
@@ -51,6 +53,7 @@ class GameView extends Game {
     damageDisplays = List<DamageDisplay>();
     stageDisplay = StageDisplay(this, saveGameDataArray['Stage'], saveGameDataArray['MonsterLevelInStage']);
     moneyDisplay = MoneyDisplay(this, saveGameDataArray['UserGold']);
+    optionDisplay = OptionDisplay(this);
     rng = Random();
     spawnGoldMobDelay = rng.nextInt(600);
     spawnUser();
@@ -70,6 +73,11 @@ class GameView extends Game {
       boss.render(canvas);
     }
     user.render(canvas);
+
+    stageDisplay.render(canvas);
+    moneyDisplay.render(canvas);
+    optionDisplay.render(canvas);
+
     goldMobs.forEach((GoldMob goldMob) {
       if (goldMob.newSpawnTime <= DateTime
           .now()
@@ -80,8 +88,6 @@ class GameView extends Game {
     damageDisplays.forEach((DamageDisplay damageDisplay) {
       damageDisplay.render(canvas);
     });
-    stageDisplay.render(canvas);
-    moneyDisplay.render(canvas);
   }
 
   void update(double t) {
@@ -200,20 +206,30 @@ class GameView extends Game {
         if (goldMob.mobRect.contains(d.globalPosition)) {
           goldMob.onTapDown(d);
         } else {
-          if(user.userDamageRect.contains(d.globalPosition) && user.isUpgradeAvailable){
-            user.upgradeUser();
-            updateSaveGame();
+          if(optionDisplay.optionRect.contains(d.globalPosition)){
+            optionDisplay.onTapDown();
           }else {
-            addDamage();
+            if (user.userDamageRect.contains(d.globalPosition) &&
+                user.isUpgradeAvailable) {
+              user.upgradeUser();
+              updateSaveGame();
+            } else {
+              addDamage();
+            }
           }
         }
       });
     } else {
-      if(user.userDamageRect.contains(d.globalPosition) && user.isUpgradeAvailable){
-        user.upgradeUser();
-        updateSaveGame();
+      if(optionDisplay.optionRect.contains(d.globalPosition)){
+        optionDisplay.onTapDown();
       }else {
-        addDamage();
+        if (user.userDamageRect.contains(d.globalPosition) &&
+            user.isUpgradeAvailable) {
+          user.upgradeUser();
+          updateSaveGame();
+        } else {
+          addDamage();
+        }
       }
     }
 
