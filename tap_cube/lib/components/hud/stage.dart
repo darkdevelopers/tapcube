@@ -82,7 +82,7 @@ class StageDisplay {
     );
     levelPainter.text = TextSpan(
         style: textStyle,
-        text: "Level: ${currentLevelInStage} / 8"
+        text: "Monster: ${currentLevelInStage} / 8"
     );
   }
 }
