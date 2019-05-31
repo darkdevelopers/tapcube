@@ -20,6 +20,6 @@ class OptionDisplay {
   void update(double t) {}
 
   void onTapDown(){
-    
+    print('click Options');
   }
 }
