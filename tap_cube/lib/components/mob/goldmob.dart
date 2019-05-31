@@ -18,7 +18,7 @@ class GoldMob extends Mob {
 
   GoldMob(GameView gv, double left, double top, double live, int _stage, int _monsterLevel) : super (gv, left, top, live, _stage, _monsterLevel) {
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
-    Duration duration = Duration(minutes: delay);
+    Duration duration = Duration(seconds: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');
@@ -45,7 +45,7 @@ class GoldMob extends Mob {
 
   @override
   void update(double t) {
-    if(isSpawned) {
+    if(isSpawned && !isTabed) {
       double stepDistance = speed * t;
       Offset toTarget = targetLocation - Offset(mobRect.left, mobRect.top);
       Offset stepToTarget = Offset.fromDirection(
@@ -57,12 +57,17 @@ class GoldMob extends Mob {
       }
       mobRect = mobRect.shift(stepToTarget);
       setTargetLocation();
+    }else if(isSpawned && isTabed){
+      mobRect = mobRect.shift(Offset(400, 400));
+      isOffScreen = true;
     }
   }
 
   void onTapDown(TapDownDetails d) {
     //load dialog
-    isTabed = true;
-    ads.loadVideoAds();
+    if(!isTabed) {
+      isTabed = true;
+      ads.loadVideoAds();
+    }
   }
 }

@@ -23,11 +23,7 @@ class Ads {
   static const MobileAdTargetingInfo targetingInfoRelease = MobileAdTargetingInfo();
 
   void init() {
-    if (kReleaseMode) {
       FirebaseAdMob.instance.initialize(appId: getAppId());
-    } else {
-      FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
-    }
   }
 
   void loadVideoAds() {
@@ -45,13 +41,7 @@ class Ads {
         print("RewardedVideoAd Amount $rewardAmount");
       }
     };
-    if (kReleaseMode) {
-      RewardedVideoAd.instance
-          .load(adUnitId: getAdUnitId(), targetingInfo: targetingInfoRelease);
-    } else {
-      RewardedVideoAd.instance.load(
-          adUnitId: RewardedVideoAd.testAdUnitId, targetingInfo: targetingInfo);
-    }
+    RewardedVideoAd.instance.load(adUnitId: getAdUnitId(), targetingInfo: targetingInfoRelease);
   }
 
   String getAdUnitId() {
