@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:tap_cube/components/background.dart';
 import 'package:tap_cube/components/user.dart';
 import 'package:tap_cube/components/mob/mob.dart';
@@ -36,13 +37,16 @@ class GameView extends Game {
   FirebaseAnalyticsObserver observer;
   Random rng;
   int spawnGoldMobDelay;
+  BuildContext context;
 
   SaveGame saveGame;
   Map<String, dynamic> saveGameDataArray;
 
-  GameView(SaveGame _saveGame, Map<String, dynamic> _saveGameDataArray) {
+  GameView(SaveGame _saveGame, Map<String, dynamic> _saveGameDataArray,
+      BuildContext _context) {
     saveGame = _saveGame;
     saveGameDataArray = _saveGameDataArray;
+    context = _context;
     initialize();
   }
 
@@ -51,9 +55,10 @@ class GameView extends Game {
     background = Background(this);
     goldMobs = List<GoldMob>();
     damageDisplays = List<DamageDisplay>();
-    stageDisplay = StageDisplay(this, saveGameDataArray['Stage'], saveGameDataArray['MonsterLevelInStage']);
+    stageDisplay = StageDisplay(this, saveGameDataArray['Stage'],
+        saveGameDataArray['MonsterLevelInStage']);
     moneyDisplay = MoneyDisplay(this, saveGameDataArray['UserGold']);
-    optionDisplay = OptionDisplay(this);
+    optionDisplay = OptionDisplay(this, context);
     rng = Random();
     spawnGoldMobDelay = rng.nextInt(600);
     spawnUser();
@@ -92,14 +97,15 @@ class GameView extends Game {
 
   void update(double t) {
     goldMobs.forEach((GoldMob goldMob) => goldMob.update(t));
-    goldMobs.removeWhere((GoldMob goldMob) => goldMob.isOffScreen && goldMob.isSpawned);
+    goldMobs.removeWhere((GoldMob goldMob) =>
+    goldMob.isOffScreen && goldMob.isSpawned);
     if (goldMobs.isEmpty) {
       spawnGoldMob();
     }
     damageDisplays.forEach((DamageDisplay damageDisplay) =>
         damageDisplay.update(t));
     damageDisplays.removeWhere((DamageDisplay damageDisplay) =>
-      damageDisplay.isOffScreen);
+    damageDisplay.isOffScreen);
     spawnMonster();
     updateMonster(t);
     user.update(t);
@@ -153,16 +159,22 @@ class GameView extends Game {
 
   void spawnUser() {
     user = User(this, ((screenSize.width - tileSize) / 2),
-        ((screenSize.height - tileSize) / 1.5), saveGameDataArray['UserDamage'], saveGameDataArray['UserLevel']);
+        ((screenSize.height - tileSize) / 1.5), saveGameDataArray['UserDamage'],
+        saveGameDataArray['UserLevel']);
   }
 
   void spawnMob() {
     double life = 0.0;
-    if((stageDisplay.currentStage == 1 && stageDisplay.currentLevelInStage == 1) || (stageDisplay.currentStage == 1 && stageDisplay.currentLevelInStage == 2)){
+    if ((stageDisplay.currentStage == 1 &&
+        stageDisplay.currentLevelInStage == 1) ||
+        (stageDisplay.currentStage == 1 &&
+            stageDisplay.currentLevelInStage == 2)) {
       life = 10 * ((stageDisplay.currentLevelInStage / 10) + 1);
-    }else {
-      life = (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 10 + stageDisplay.currentStage)) +
-          (stageDisplay.currentLevelInStage / 10 + 1) * (user.userLevel)) * 2 * 10 * 1) * 4;
+    } else {
+      life = (((stageDisplay.currentStage *
+          (stageDisplay.currentLevelInStage / 10 + stageDisplay.currentStage)) +
+          (stageDisplay.currentLevelInStage / 10 + 1) * (user.userLevel)) * 2 *
+          10 * 1) * 4;
     }
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
@@ -173,8 +185,10 @@ class GameView extends Game {
   void spawnBoss() {
     boss = Boss(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
-        (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 5 + stageDisplay.currentStage)) +
-            (stageDisplay.currentLevelInStage / 10 + 1) * (user.userLevel / 2)) * 2 * 10 * 1) * 5,
+        (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 5 +
+            stageDisplay.currentStage)) +
+            (stageDisplay.currentLevelInStage / 10 + 1) *
+                (user.userLevel / 2)) * 2 * 10 * 1) * 5,
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
@@ -201,35 +215,41 @@ class GameView extends Game {
   }
 
   void onTapDown(TapDownDetails d) {
-    if (goldMobs.isNotEmpty) {
-      goldMobs.forEach((GoldMob goldMob) {
-        if (goldMob.mobRect.contains(d.globalPosition)) {
-          goldMob.onTapDown(d);
-        } else {
-          if(optionDisplay.optionRect.contains(d.globalPosition)){
-            optionDisplay.onTapDown();
-          }else {
-            if (user.userDamageRect.contains(d.globalPosition) &&
-                user.isUpgradeAvailable) {
-              user.upgradeUser();
-              updateSaveGame();
+    if (!optionDisplay.isOpen) {
+      if (goldMobs.isNotEmpty) {
+        goldMobs.forEach((GoldMob goldMob) {
+          if (goldMob.mobRect.contains(d.globalPosition)) {
+            goldMob.onTapDown(d);
+          } else {
+            if (optionDisplay.optionRect.contains(d.globalPosition)) {
+              optionDisplay.onTapDown();
             } else {
-              addDamage();
+              if (user.userDamageRect.contains(d.globalPosition) &&
+                  user.isUpgradeAvailable) {
+                user.upgradeUser();
+                updateSaveGame();
+              } else {
+                addDamage();
+              }
             }
           }
-        }
-      });
-    } else {
-      if(optionDisplay.optionRect.contains(d.globalPosition)){
-        optionDisplay.onTapDown();
-      }else {
-        if (user.userDamageRect.contains(d.globalPosition) &&
-            user.isUpgradeAvailable) {
-          user.upgradeUser();
-          updateSaveGame();
+        });
+      } else {
+        if (optionDisplay.optionRect.contains(d.globalPosition)) {
+          optionDisplay.onTapDown();
         } else {
-          addDamage();
+          if (user.userDamageRect.contains(d.globalPosition) &&
+              user.isUpgradeAvailable) {
+            user.upgradeUser();
+            updateSaveGame();
+          } else {
+            addDamage();
+          }
         }
+      }
+    }else{
+      if (optionDisplay.optionRect.contains(d.globalPosition)) {
+        optionDisplay.isOpen = false;
       }
     }
 
