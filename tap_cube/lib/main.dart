@@ -17,8 +17,9 @@ class loadingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Tapcube',
-      home: loadingInformation(),
+      initialRoute: '/',
       routes: {
+        '/': (context) => loadingInformation(),
         '/option': (context) => Option(),
       },
     );
@@ -78,10 +79,6 @@ Future<Widget> gameView(BuildContext context) async {
   ]);
 
   GameView gv = new GameView(saveGame, jsonDecode(saveGameData), context);
-
-  TapGestureRecognizer tapperGameView = TapGestureRecognizer();
-  tapperGameView.onTapDown = gv.onTapDown;
-  flameUtil.addGestureRecognizer(tapperGameView);
-
+  flameUtil.addGestureRecognizer(gv.addGesture());
   return gv.widget;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tap_cube/state/optionstates.dart';
 
 class Option extends StatefulWidget {
   @override
@@ -8,11 +9,17 @@ class Option extends StatefulWidget {
 }
 
 class OptionState extends State<Option> {
+  final optionStates _optionStates = optionStates.getInstance();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Option"),
+        title: Text("Tap Cube - Options"),
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: Text("Body Option"),
     );

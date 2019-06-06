@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'dart:convert';
+import 'package:path/path.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
@@ -17,8 +18,11 @@ import 'package:tap_cube/components/hud/option.dart';
 import 'package:tap_cube/savegame.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:tap_cube/state/optionstates.dart';
 
 class GameView extends Game {
+  final optionStates _optionStates = optionStates.getInstance();
+
   int currentUserDamage = 0;
   double tileSize;
 
@@ -41,6 +45,8 @@ class GameView extends Game {
 
   SaveGame saveGame;
   Map<String, dynamic> saveGameDataArray;
+
+  TapGestureRecognizer tapperGameView;
 
   GameView(SaveGame _saveGame, Map<String, dynamic> _saveGameDataArray,
       BuildContext _context) {
@@ -109,6 +115,10 @@ class GameView extends Game {
     spawnMonster();
     updateMonster(t);
     user.update(t);
+    if(!_optionStates.isOptionDialogOpen){
+      print("dialog");
+      optionDisplay.isOpen = false;
+    }
   }
 
   void spawnMonster() {
@@ -215,7 +225,7 @@ class GameView extends Game {
   }
 
   void onTapDown(TapDownDetails d) {
-    if (!optionDisplay.isOpen) {
+    if(!optionDisplay.isOpen) {
       if (goldMobs.isNotEmpty) {
         goldMobs.forEach((GoldMob goldMob) {
           if (goldMob.mobRect.contains(d.globalPosition)) {
@@ -223,6 +233,7 @@ class GameView extends Game {
           } else {
             if (optionDisplay.optionRect.contains(d.globalPosition)) {
               optionDisplay.onTapDown();
+              _optionStates.isOptionDialogOpen = true;
             } else {
               if (user.userDamageRect.contains(d.globalPosition) &&
                   user.isUpgradeAvailable) {
@@ -247,16 +258,18 @@ class GameView extends Game {
           }
         }
       }
-    }else{
-      if (optionDisplay.optionRect.contains(d.globalPosition)) {
-        optionDisplay.isOpen = false;
-      }
     }
+  }
 
-    /*analytics.logEvent(name: 'levelup', parameters: <String, dynamic>{
-      'int': 1,
+  void reloadGesture(){
+    if(tapperGameView != null){
+      tapperGameView.onTapDown = onTapDown;
     }
-    );
-    */
+  }
+
+  TapGestureRecognizer addGesture(){
+    tapperGameView = TapGestureRecognizer();
+    tapperGameView.onTapDown = onTapDown;
+    return tapperGameView;
   }
 }
