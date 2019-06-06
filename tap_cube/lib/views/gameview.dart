@@ -116,7 +116,6 @@ class GameView extends Game {
     updateMonster(t);
     user.update(t);
     if(!_optionStates.isOptionDialogOpen){
-      print("dialog");
       optionDisplay.isOpen = false;
     }
   }

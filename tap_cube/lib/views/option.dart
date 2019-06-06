@@ -18,7 +18,10 @@ class OptionState extends State<Option> {
         title: Text("Tap Cube - Options"),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.of(context).pop();
+            _optionStates.isOptionDialogOpen = false;
+          },
         ),
       ),
       body: Text("Body Option"),
