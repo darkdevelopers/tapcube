@@ -16,8 +16,8 @@ class OptionState extends State<Option> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Tap Cube - Options"),
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
             _optionStates.isOptionDialogOpen = false;
@@ -32,14 +32,14 @@ class OptionState extends State<Option> {
         ListTile(
           title: Text('Impressum'),
           onTap: (){
-            print('impressum');
+            Navigator.of(context).pushNamed('/impressum');
           },
           trailing: Icon(Icons.arrow_right),
         ),
         ListTile(
           title: Text('Datenschutz'),
           onTap: (){
-            print('datenschutz');
+            Navigator.of(context).pushNamed('/datenschutz');
           },
           trailing: Icon(Icons.arrow_right),
         ),
