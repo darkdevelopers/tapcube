@@ -52,8 +52,6 @@ class GameView extends Game {
       BuildContext _context) {
     saveGame = _saveGame;
     saveGameDataArray = _saveGameDataArray;
-    print('loading Savegame');
-    print(saveGameDataArray['Hp']);
     context = _context;
     initialize();
   }
@@ -183,6 +181,7 @@ class GameView extends Game {
 
   void spawnMob() {
     double life = 0.0;
+    double currentLife = saveGameDataArray['Hp'];
     if ((stageDisplay.currentStage == 1 &&
         stageDisplay.currentLevelInStage == 1) ||
         (stageDisplay.currentStage == 1 &&
@@ -194,21 +193,33 @@ class GameView extends Game {
           (stageDisplay.currentLevelInStage / 10 + 1) * (user.userLevel)) * 2 *
           10 * 1) * 4;
     }
+    if(currentLife <= 0.0){
+      currentLife = life;
+    }
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
         life,
-        saveGameDataArray['Hp'],
+        currentLife,
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
   void spawnBoss() {
+    double life = 0.0;
+    double currentLife = saveGameDataArray['Hp'];
+
+    life = (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 5 +
+        stageDisplay.currentStage)) +
+        (stageDisplay.currentLevelInStage / 10 + 1) *
+            (user.userLevel / 2)) * 2 * 10 * 1) * 5;
+
+    if(currentLife <= 0.0){
+      currentLife = life;
+    }
+
     boss = Boss(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
-        (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 5 +
-            stageDisplay.currentStage)) +
-            (stageDisplay.currentLevelInStage / 10 + 1) *
-                (user.userLevel / 2)) * 2 * 10 * 1) * 5,
-        saveGameDataArray['Hp'],
+        life,
+        currentLife,
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
