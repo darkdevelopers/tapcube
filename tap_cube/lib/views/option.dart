@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tap_cube/state/optionstates.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+final optionStates _optionStates = optionStates.getInstance();
 
 class Option extends StatefulWidget {
   @override
@@ -9,8 +14,6 @@ class Option extends StatefulWidget {
 }
 
 class OptionState extends State<Option> {
-  final optionStates _optionStates = optionStates.getInstance();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -43,3 +43,10 @@ class TranslationsDelegate extends LocalizationsDelegate<Translations> {
   @override
   bool shouldReload(TranslationsDelegate old) => false;
 }
+
+class TranslationInformagtions {
+  static String getLanguage(BuildContext context) {
+    Locale myLocale = Localizations.localeOf(context);
+    return myLocale.languageCode;
+  }
+}

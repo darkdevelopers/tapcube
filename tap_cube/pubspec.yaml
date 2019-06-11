@@ -28,6 +28,7 @@ dependencies:
   flame: ^0.11.2
   firebase_admob: ^0.9.0
   firebase_analytics: ^3.0.1
+  firebase_database: ^3.0.2
 
 dev_dependencies:
   flutter_test:
