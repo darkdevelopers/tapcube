@@ -34,9 +34,7 @@ class DatenschutzUi extends State<Datenschutz>{
 
     Text content = Text(
       _privacyText.toString(),
-      textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontWeight: FontWeight.bold),
     );
 
     return Scaffold(

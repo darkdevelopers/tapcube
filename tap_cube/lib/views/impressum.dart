@@ -34,9 +34,7 @@ class ImpressumUi extends State<Impressum> {
   Widget build(BuildContext context) {
     Text content = Text(
       _impressumText.toString(),
-      textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontWeight: FontWeight.bold),
     );
 
     return Scaffold(
@@ -44,8 +42,8 @@ class ImpressumUi extends State<Impressum> {
         title: Text('Impressum'),
       ),
       body: Container(
-          padding: EdgeInsets.all(10.0),
-          child: content
+        padding: EdgeInsets.all(10.0),
+        child: content
       ),
     );
   }
@@ -71,7 +69,6 @@ class ImpressumUi extends State<Impressum> {
         break;
 
         case 'en': {
-          print(snapshot.value['en'].toString());
           return snapshot.value['en'].toString();
         }
         break;
