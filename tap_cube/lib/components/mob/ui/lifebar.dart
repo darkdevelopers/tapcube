@@ -15,9 +15,8 @@ class LifeBar {
   double currentMobLife = 0.0;
   double lifeWidth = 200;
 
-  LifeBar(this.gv, double life) {
+  LifeBar(this.gv, double life, double currentLife) {
     mobLife = life;
-    currentMobLife = life;
     left = ((gv.screenSize.width - gv.tileSize) / 3.35);
     liveTextPaint = TextPainter(
       textAlign: TextAlign.center,
@@ -45,6 +44,17 @@ class LifeBar {
         ((gv.screenSize.height - gv.tileSize) / 7), 200, 20);
     liveRect = new Rect.fromLTWH(
         left, ((gv.screenSize.height - gv.tileSize) / 7) + 2, lifeWidth, 16);
+
+    if(currentLife <= 0.0){
+      currentMobLife = life;
+    }else {
+      currentMobLife = currentLife;
+      lifeWidth -= (mobLife - currentLife) / mobLife * 200;
+      liveTextPaint.text = new TextSpan(
+          text: "${currentMobLife.toStringAsFixed(1)} / ${mobLife.toStringAsFixed(1)} HP");
+      liveRect = new Rect.fromLTWH(
+          left, ((gv.screenSize.height - gv.tileSize) / 7) + 2, lifeWidth, 16);
+    }
   }
 
   Offset getTextLocation() {

@@ -20,12 +20,12 @@ class Mob {
   bool isHited = false;
   int counter = 0;
 
-  Mob(this.gv, double left, double top, double live, int _stage, int _monsterLevel) {
+  Mob(this.gv, double left, double top, double live, double currentLive, int _stage, int _monsterLevel) {
     isDead = false;
     stage = _stage;
     monsterLevel = _monsterLevel;
     calculateLoot();
-    mobBar = LifeBar(gv, live);
+    mobBar = LifeBar(gv, live, currentLive);
     mobSprite = Sprite('mobs/trashmob.png');
     mobHitSprite = Sprite('mobs/trashmob-hit.png');
     mobDeadSprite = Sprite('mobs/trashmob-dead.png');

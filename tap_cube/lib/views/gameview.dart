@@ -52,6 +52,8 @@ class GameView extends Game {
       BuildContext _context) {
     saveGame = _saveGame;
     saveGameDataArray = _saveGameDataArray;
+    print('loading Savegame');
+    print(saveGameDataArray['Hp']);
     context = _context;
     initialize();
   }
@@ -131,6 +133,7 @@ class GameView extends Game {
   void updateMonster(double t) {
     if (stageDisplay.currentLevelInStage < 8 && mob != null) {
       mob.update(t);
+      updateHpSaveGame();
       if (mob.isDead && mob.isOffScreen) {
         moneyDisplay.addMoney(mob.lootMoney);
         moneyDisplay.update(t);
@@ -141,6 +144,7 @@ class GameView extends Game {
       }
     } else if (stageDisplay.currentLevelInStage == 8 && boss != null) {
       boss.update(t);
+      updateHpSaveGame();
       if (boss.isDead && boss.isOffScreen) {
         moneyDisplay.addMoney(boss.lootMoney);
         moneyDisplay.update(t);
@@ -158,6 +162,11 @@ class GameView extends Game {
     saveGameDataArray['UserGold'] = moneyDisplay.currentMoney;
     saveGameDataArray['UserDamage'] = user.currentDamage;
     saveGameDataArray['UserLevel'] = user.userLevel;
+    saveGame.setSaveGame(jsonEncode(saveGameDataArray));
+  }
+
+  void updateHpSaveGame(){
+    saveGameDataArray['Hp'] = mob.mobBar.currentMobLife;
     saveGame.setSaveGame(jsonEncode(saveGameDataArray));
   }
 
@@ -188,6 +197,7 @@ class GameView extends Game {
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
         life,
+        saveGameDataArray['Hp'],
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
@@ -198,12 +208,13 @@ class GameView extends Game {
             stageDisplay.currentStage)) +
             (stageDisplay.currentLevelInStage / 10 + 1) *
                 (user.userLevel / 2)) * 2 * 10 * 1) * 5,
+        saveGameDataArray['Hp'],
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
   }
 
   void spawnGoldMob() {
     double top = rng.nextDouble() * (screenSize.height - tileSize);
-    goldMobs.add(GoldMob(this, 0.0, top, 0, stageDisplay.currentStage,
+    goldMobs.add(GoldMob(this, 0.0, top, 0, 0.0, stageDisplay.currentStage,
         stageDisplay.currentLevelInStage));
   }
 

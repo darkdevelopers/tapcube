@@ -19,12 +19,12 @@ class Boss {
   bool isHited = false;
   int counter = 0;
 
-  Boss(this.gv, double left, double top, double live, int _stage, int _monsterLevel) {
+  Boss(this.gv, double left, double top, double live, double currentLive, int _stage, int _monsterLevel) {
     isDead = false;
     stage = _stage;
     monsterLevel = _monsterLevel;
     calculateLoot();
-    mobBar = LifeBar(gv, live);
+    mobBar = LifeBar(gv, live, currentLive);
     mobSprite = Sprite('mobs/boss.png');
     mobHitSprite = Sprite('mobs/boss-hit.png');
     mobDeadSprite = Sprite('mobs/boss-dead.png');
