@@ -7,6 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/savegame.dart';
 import 'package:tap_cube/views/option.dart';
+import 'package:tap_cube/views/impressum.dart';
+import 'package:tap_cube/views/datenschutz.dart';
 
 void main() {
   runApp(new loadingApp());
@@ -21,6 +23,8 @@ class loadingApp extends StatelessWidget {
       routes: {
         '/': (context) => loadingInformation(),
         '/option': (context) => Option(),
+        '/impressum': (context) => Impressum(),
+        '/datenschutz': (context) => Datenschutz(),
       },
     );
   }

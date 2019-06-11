@@ -24,7 +24,26 @@ class OptionState extends State<Option> {
           },
         ),
       ),
-      body: Text("Body Option"),
+      body: ListView(children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text('Allgemeine Informationen', textAlign: TextAlign.center, textScaleFactor: 1.5, style: new TextStyle(color: Colors.black)),
+        ),
+        ListTile(
+          title: Text('Impressum'),
+          onTap: (){
+            print('impressum');
+          },
+          trailing: Icon(Icons.arrow_right),
+        ),
+        ListTile(
+          title: Text('Datenschutz'),
+          onTap: (){
+            print('datenschutz');
+          },
+          trailing: Icon(Icons.arrow_right),
+        ),
+      ]),
     );
   }
 }
