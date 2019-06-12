@@ -9,8 +9,13 @@ import 'package:tap_cube/savegame.dart';
 import 'package:tap_cube/views/option.dart';
 import 'package:tap_cube/views/impressum.dart';
 import 'package:tap_cube/views/datenschutz.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 void main() {
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
+  FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
+  FirebaseDatabase.instance.reference().child('general').onChildAdded.length;
+
   runApp(new loadingApp());
 }
 
