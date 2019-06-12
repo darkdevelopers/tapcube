@@ -164,7 +164,11 @@ class GameView extends Game {
   }
 
   void updateHpSaveGame(){
-    saveGameDataArray['Hp'] = mob.mobBar.currentMobLife;
+    if(mob != null) {
+      saveGameDataArray['Hp'] = mob.mobBar.currentMobLife;
+    }else if(boss != null){
+      saveGameDataArray['Hp'] = boss.mobBar.currentMobLife;
+    }
     saveGame.setSaveGame(jsonEncode(saveGameDataArray));
   }
 
@@ -196,6 +200,7 @@ class GameView extends Game {
     if(currentLife <= 0.0){
       currentLife = life;
     }
+
     mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
         ((screenSize.height - tileSize) / 2.1),
         life,

@@ -83,6 +83,8 @@ class LifeBar {
     }
     if (currentMobLife <= 0.0) {
       lifeWidth = 0;
+      liveRect = new Rect.fromLTWH(
+          left, ((gv.screenSize.height - gv.tileSize) / 7) + 2, lifeWidth, 16);
       liveTextPaint.text = new TextSpan(
           text: "0.0 / ${mobLife.toStringAsFixed(1)} HP");
     }
