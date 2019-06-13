@@ -14,7 +14,7 @@ import 'package:connectivity/connectivity.dart';
 
 
 void main() {
-    runApp(new loadingApp());
+  runApp(new loadingApp());
 }
 
 class loadingApp extends StatelessWidget {
@@ -47,27 +47,27 @@ class loadingInformationState extends State<loadingInformation> {
 
   void _showDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('internet connection problems'),
-          content: Text('no internet connection found to sync files'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('try again'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                checkInternet();
-              },
-            )
-          ],
-        );
-      },
-      barrierDismissible: false
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('internet connection problems'),
+            content: Text('no internet connection found to sync files'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('try again'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  checkInternet();
+                },
+              )
+            ],
+          );
+        },
+        barrierDismissible: false
     );
   }
 
-  void loadFirebase(){
+  void loadFirebase() {
     FirebaseDatabase.instance.setPersistenceEnabled(true);
     FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
     FirebaseDatabase.instance
@@ -77,25 +77,27 @@ class loadingInformationState extends State<loadingInformation> {
         .length;
   }
 
-  void checkInternet(){
+  void checkInternet() {
     ConnectivityResult results;
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       results = result;
-      if(ConnectivityResult.mobile == results || ConnectivityResult.wifi == results) {
+      if (ConnectivityResult.mobile == results ||
+          ConnectivityResult.wifi == results) {
         loadFirebase();
       }
     });
 
-    Connectivity().checkConnectivity().then((result){
+    Connectivity().checkConnectivity().then((result) {
       results = result;
-    }).whenComplete((){
-      if(ConnectivityResult.mobile == results || ConnectivityResult.wifi == results) {
+    }).whenComplete(() {
+      if (ConnectivityResult.mobile == results ||
+          ConnectivityResult.wifi == results) {
         loadFirebase();
 
         setState(() {
           isInternetExists = true;
         });
-      }else{
+      } else {
         _showDialog();
       }
     });
@@ -113,9 +115,9 @@ class loadingInformationState extends State<loadingInformation> {
 
   @override
   Widget build(BuildContext context) {
-    if(gv == null || !isInternetExists){
+    if (gv == null || !isInternetExists) {
       return new Scaffold(); // Splashscreen einfügen
-    }else{
+    } else {
       return gv;
     }
   }
