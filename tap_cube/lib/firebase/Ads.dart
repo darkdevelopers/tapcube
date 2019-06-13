@@ -2,6 +2,8 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' show Platform;
 
+import 'package:tap_cube/components/mob/goldmob.dart';
+
 const String testDevice = 'IphoneSimulator';
 
 class Ads {
@@ -26,7 +28,7 @@ class Ads {
       FirebaseAdMob.instance.initialize(appId: getAppId());
   }
 
-  void loadVideoAds() {
+  void loadVideoAds(GoldMob goldMob) {
     RewardedVideoAd.instance.listener =
         (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
       print("RewardedVideoAd event $event");
@@ -37,8 +39,7 @@ class Ads {
         print("FAILED TO LOAD");
       }
       if (event == RewardedVideoAdEvent.rewarded) {
-        //RewardedVideoAd.instance.load(adUnitId: RewardedVideoAd.testAdUnitId);
-        print("RewardedVideoAd Amount $rewardAmount");
+        goldMob.isRewardedVideo = true;
       }
     };
     RewardedVideoAd.instance.load(adUnitId: getAdUnitId(), targetingInfo: targetingInfoRelease);

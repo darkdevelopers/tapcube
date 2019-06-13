@@ -102,9 +102,14 @@ class GameView extends Game {
   }
 
   void update(double t) {
-    goldMobs.forEach((GoldMob goldMob) => goldMob.update(t));
+    goldMobs.forEach((GoldMob goldMob) {
+      goldMob.update(t);
+      if(goldMob.isRewardedVideo) {
+        moneyDisplay.addMoney(goldMob.lootMoney);
+      }
+    });
     goldMobs.removeWhere((GoldMob goldMob) =>
-    goldMob.isOffScreen && goldMob.isSpawned);
+    goldMob.isOffScreen && goldMob.isSpawned && (goldMob.isRewardedVideo || goldMob.isVideoAborded));
     if (goldMobs.isEmpty) {
       spawnGoldMob();
     }
@@ -231,7 +236,7 @@ class GameView extends Game {
   void spawnGoldMob() {
     double top = rng.nextDouble() * (screenSize.height - tileSize);
     goldMobs.add(GoldMob(this, 0.0, top, 0, 0.0, stageDisplay.currentStage,
-        stageDisplay.currentLevelInStage));
+        stageDisplay.currentLevelInStage, context));
   }
 
   void addDamage() {

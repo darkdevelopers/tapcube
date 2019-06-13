@@ -4,29 +4,64 @@ import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/firebase/Ads.dart';
 import 'package:tap_cube/components/mob/mob.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
 class GoldMob extends Mob {
   int newSpawnTime = 0;
-  int minDelay = 5;
-  int maxDelay = 10;
+  int minDelay = 1;
+  int maxDelay = 5;
   bool isOffScreen = false;
   bool isTabed = false;
   bool isSpawned = false;
+  bool isRewardedVideo = false;
+  bool isVideoAborded = false;
   Ads ads;
   Offset targetLocation;
   double get speed => gv.tileSize * 0.5;
+  double lootMoney = 0.0;
+  BuildContext context;
 
-  GoldMob(GameView gv, double left, double top, double live, double currentLive, int _stage, int _monsterLevel) : super (gv, left, top, live, currentLive, _stage, _monsterLevel) {
+  GoldMob(GameView gv, double left, double top, double live, double currentLive, int _stage, int _monsterLevel, BuildContext _context) : super (gv, left, top, live, currentLive, _stage, _monsterLevel) {
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
     Duration duration = Duration(minutes: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
+    context = _context;
     ads = Ads();
     ads.init();
 
     setTargetLocation();
+  }
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('GOLD CHEST'),
+            content: Text('you get gold "${lootMoney.toStringAsFixed(2)}" for watching this Video.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Don\' need \$\$\$'),
+                onPressed: () {
+                  isVideoAborded = true;
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text('Get \$\$\$'),
+                onPressed: () {
+                  ads.loadVideoAds(this);
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+        barrierDismissible: false
+    );
   }
 
   void setTargetLocation() {
@@ -35,6 +70,10 @@ class GoldMob extends Mob {
     double top = gv.rng.nextDouble() *
         (gv.screenSize.height - (gv.tileSize * 1.025));
     targetLocation = Offset(left, mobRect.top);
+  }
+
+  void calculateLoot(){
+    lootMoney = (10 * (stage/10+1) * ((monsterLevel*2)/10+1)) * (7 + gv.rng.nextInt(15 - 7));
   }
 
   @override
@@ -67,7 +106,7 @@ class GoldMob extends Mob {
     //load dialog
     if(!isTabed) {
       isTabed = true;
-      ads.loadVideoAds();
+      _showDialog();
     }
   }
 }
