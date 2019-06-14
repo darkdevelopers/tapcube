@@ -1,4 +1,4 @@
-package de.darkdevelopers.tap_cube;
+package de.darkdevelopers.tapcube;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

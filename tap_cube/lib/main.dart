@@ -10,7 +10,6 @@ import 'package:tap_cube/views/option.dart';
 import 'package:tap_cube/views/impressum.dart';
 import 'package:tap_cube/views/datenschutz.dart';
 
-
 void main() {
   runApp(new loadingApp());
 }
@@ -39,7 +38,7 @@ class loadingInformation extends StatefulWidget {
 }
 
 class loadingInformationState extends State<loadingInformation> {
-  Widget gv = null;
+  /*Widget gv = null;
 
   @override
   void initState() {
@@ -58,6 +57,10 @@ class loadingInformationState extends State<loadingInformation> {
     } else {
       return gv;
     }
+  }*/
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(); // Splashscreen einfügen
   }
 }
 
