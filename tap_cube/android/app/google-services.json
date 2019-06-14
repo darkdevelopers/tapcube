@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "482631160813",
+    "firebase_url": "https://tap-cube.firebaseio.com",
+    "project_id": "tap-cube",
+    "storage_bucket": "tap-cube.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482631160813:android:a9ef7df7929783cd",
+        "android_client_info": {
+          "package_name": "de.darkdevelopers.tapcube"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482631160813-hj83ul6op41023d3p904i7qrenjldf5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmEGijesstX14TPv-uv8Wx3gdVTTan8_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482631160813-hj83ul6op41023d3p904i7qrenjldf5h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "482631160813-3j83sfn6prcdhi728vdq50jas4nsdhpj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.darkdevelopers.tapCube"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-8089412545634153~3097783620"
+    }
+  ],
+  "configuration_version": "1"
+}
