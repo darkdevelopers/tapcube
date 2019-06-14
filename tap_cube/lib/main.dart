@@ -1,11 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:flame/flame.dart';
-import 'package:flame/util.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:tap_cube/views/gameview.dart';
-import 'package:tap_cube/savegame.dart';
 import 'package:tap_cube/views/option.dart';
 import 'package:tap_cube/views/impressum.dart';
 import 'package:tap_cube/views/datenschutz.dart';
@@ -38,33 +31,13 @@ class loadingInformation extends StatefulWidget {
 }
 
 class loadingInformationState extends State<loadingInformation> {
-  /*Widget gv = null;
-
-  @override
-  void initState() {
-    super.initState();
-    gameView(context).then((result) {
-      setState(() {
-        gv = result;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (gv == null) {
-      return new Scaffold(); // Splashscreen einfügen
-    } else {
-      return gv;
-    }
-  }*/
   @override
   Widget build(BuildContext context) {
     return new Scaffold(); // Splashscreen einfügen
   }
 }
 
-Future<Widget> gameView(BuildContext context) async {
+/*Future<Widget> gameView(BuildContext context) async {
   Util flameUtil = new Util();
   await flameUtil.fullScreen();
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
@@ -90,4 +63,4 @@ Future<Widget> gameView(BuildContext context) async {
   GameView gv = new GameView(saveGame, jsonDecode(saveGameData), context);
   flameUtil.addGestureRecognizer(gv.addGesture());
   return gv.widget;
-}
+}*/
