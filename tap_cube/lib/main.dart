@@ -43,6 +43,7 @@ class loadingInformationState extends State<loadingInformation> {
 
   @override
   void initState() {
+    super.initState();
     gameView(context).then((result) {
       setState(() {
         gv = result;
