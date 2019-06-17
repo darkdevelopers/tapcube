@@ -4,6 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/util.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/savegame.dart';
 import 'package:tap_cube/views/option.dart';
@@ -27,6 +28,7 @@ class loadingApp extends StatelessWidget {
         '/impressum': (context) => Impressum(),
         '/datenschutz': (context) => Datenschutz(),
       },
+      debugShowCheckedModeBanner: !kReleaseMode,
     );
   }
 }
