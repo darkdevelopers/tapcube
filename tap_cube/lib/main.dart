@@ -55,7 +55,17 @@ class loadingInformationState extends State<loadingInformation> {
   @override
   Widget build(BuildContext context) {
     if (gv == null) {
-      return new Scaffold(); // Splashscreen einfügen
+      return new Scaffold(
+        body: Center(
+          child: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('launch/splash_screen.png')
+                )
+              )
+          ),
+        ),
+      ); // Splashscreen einfügen
     } else {
       return gv;
     }

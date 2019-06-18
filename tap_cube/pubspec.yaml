@@ -61,6 +61,7 @@ flutter:
     - assets/images/hud/muenze.png
     - assets/images/hud/interaction.png
     - assets/images/hud/option.png
+    - assets/images/launch/splash_screen.png
   #  - locale/i18n_de.json
   #  - locale/i18n_en.json
 
