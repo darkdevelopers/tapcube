@@ -96,8 +96,7 @@ class DatenschutzUi extends State<Datenschutz>{
   Widget build(BuildContext context) {
 
     Text content = Text(
-      _privacyText.toString(),
-      overflow: TextOverflow.ellipsis,
+      _privacyText.toString()
     );
 
     return Scaffold(
@@ -106,7 +105,11 @@ class DatenschutzUi extends State<Datenschutz>{
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
-        child: content
+        child: new ListView(
+          children: [
+            content
+          ]
+        )
       ),
     );
   }
