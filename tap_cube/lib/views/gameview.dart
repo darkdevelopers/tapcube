@@ -102,14 +102,15 @@ class GameView extends Game {
   }
 
   void update(double t) {
+    goldMobs.removeWhere((GoldMob goldMob) =>
+    goldMob.isOffScreen && goldMob.isSpawned && (goldMob.isRewardedVideo || goldMob.isVideoAborded));
     goldMobs.forEach((GoldMob goldMob) {
       goldMob.update(t);
       if(goldMob.isRewardedVideo) {
         moneyDisplay.addMoney(goldMob.lootMoney);
+        goldMob.isRewardedVideo=false;
       }
     });
-    goldMobs.removeWhere((GoldMob goldMob) =>
-    goldMob.isOffScreen && goldMob.isSpawned && (goldMob.isRewardedVideo || goldMob.isVideoAborded));
     if (goldMobs.isEmpty) {
       spawnGoldMob();
     }
