@@ -260,7 +260,7 @@ class GameView extends Game {
     if(!optionDisplay.isOpen) {
       if (goldMobs.isNotEmpty) {
         goldMobs.forEach((GoldMob goldMob) {
-          if (goldMob.mobRect.contains(d.globalPosition)) {
+          if (goldMob.mobRect.contains(d.globalPosition) && !goldMob.isOffScreen) {
             goldMob.onTapDown(d);
           } else {
             if (optionDisplay.optionRect.contains(d.globalPosition)) {
