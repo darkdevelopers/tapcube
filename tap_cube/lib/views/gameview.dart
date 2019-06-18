@@ -1,11 +1,11 @@
 import 'dart:math';
 import 'dart:ui';
 import 'dart:convert';
-import 'package:path/path.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tap_cube/components/background.dart';
 import 'package:tap_cube/components/user.dart';
 import 'package:tap_cube/components/mob/mob.dart';
@@ -53,6 +53,7 @@ class GameView extends Game {
     saveGame = _saveGame;
     saveGameDataArray = _saveGameDataArray;
     context = _context;
+    SystemChrome.setEnabledSystemUIOverlays ([]);
     initialize();
   }
 
