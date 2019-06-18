@@ -57,13 +57,7 @@ class loadingInformationState extends State<loadingInformation> {
     if (gv == null) {
       return new Scaffold(
         body: Center(
-          child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('launch/splash_screen.png')
-                )
-              )
-          ),
+          child: Text('Loading...')
         ),
       ); // Splashscreen einfügen
     } else {
@@ -92,6 +86,7 @@ Future<Widget> gameView(BuildContext context) async {
     'mobs/boss-dead.png',
     'hud/muenze.png',
     'hud/interaction.png',
+    'hud/interaction_disabled.png',
     'hud/option.png'
   ]);
 

@@ -10,7 +10,9 @@ class User {
   Rect userRect;
   Sprite userSprite;
   Rect userDamageRect;
+  Rect userDamageRectDisabled;
   Sprite userDamageSprite;
+  Sprite userDamageSpriteDisabled;
   Rect moneyRect;
   Sprite moneySprite;
   TextPainter painter;
@@ -81,6 +83,11 @@ class User {
 
     userDamageSprite = Sprite('hud/interaction.png');
     userDamageRect = Rect.fromLTWH((gv.screenSize.width - gv.tileSize) / 1.3,
+        (gv.screenSize.height - gv.tileSize) / 1.06, gv.tileSize * 2.5,
+        gv.tileSize * 1.25);
+
+    userDamageSpriteDisabled = Sprite('hud/interaction_disabled.png');
+    userDamageRectDisabled = Rect.fromLTWH((gv.screenSize.width - gv.tileSize) / 1.3,
         (gv.screenSize.height - gv.tileSize) / 1.06, gv.tileSize * 2.5,
         gv.tileSize * 1.25);
 
@@ -202,6 +209,13 @@ class User {
     c.drawRect(barRect, barPaint);
     if (isUpgradeAvailable) {
       userDamageSprite.renderRect(c, userDamageRect);
+      moneySprite.renderRect(c, moneyRect);
+      painter.layout();
+      painter.paint(c, targetLocation);
+      dmgPainter.layout();
+      dmgPainter.paint(c, dmgTargetLocation);
+    }else{
+      userDamageSpriteDisabled.renderRect(c, userDamageRectDisabled);
       moneySprite.renderRect(c, moneyRect);
       painter.layout();
       painter.paint(c, targetLocation);

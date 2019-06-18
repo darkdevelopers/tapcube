@@ -60,6 +60,7 @@ flutter:
     - assets/images/mobs/trashmob-dead.png
     - assets/images/hud/muenze.png
     - assets/images/hud/interaction.png
+    - assets/images/hud/interaction_disabled.png
     - assets/images/hud/option.png
     - assets/images/launch/splash_screen.png
   #  - locale/i18n_de.json
