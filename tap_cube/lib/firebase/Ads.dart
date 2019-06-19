@@ -23,7 +23,7 @@ class Ads {
   void loadListener(GoldMob goldMob){
     RewardedVideoAd.instance.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
       if(event == RewardedVideoAdEvent.loaded){
-        RewardedVideoAd.instance.show();
+        videoIsReady = true;
       }
       if (event == RewardedVideoAdEvent.failedToLoad) {
         goldMob.isVideoAborded = true;
@@ -35,6 +35,12 @@ class Ads {
         goldMob.isVideoAborded = true;
       }
     };
+  }
+
+  void startVideo(){
+    if(videoIsReady){
+      RewardedVideoAd.instance.show();
+    }
   }
 
   void loadVideoAds() {

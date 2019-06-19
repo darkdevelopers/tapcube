@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class GoldMob extends Mob {
   int newSpawnTime = 0;
   int minDelay = 1;
-  int maxDelay = 5;
+  int maxDelay = 2;
   bool isOffScreen = false;
   bool isTabed = false;
   bool isSpawned = false;
@@ -31,6 +31,8 @@ class GoldMob extends Mob {
     context = _context;
     ads = Ads();
     ads.init();
+    ads.loadListener(this);
+    ads.loadVideoAds();
 
     setTargetLocation();
   }
@@ -53,8 +55,7 @@ class GoldMob extends Mob {
               FlatButton(
                 child: Text('Get \$\$\$'),
                 onPressed: () {
-                  ads.loadListener(this);
-                  ads.loadVideoAds();
+                  ads.startVideo();
                   Navigator.of(context).pop();
                 },
               )

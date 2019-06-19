@@ -106,10 +106,13 @@ class GameView extends Game {
       goldMobs.forEach((GoldMob goldMob) {
         if (goldMob.newSpawnTime <= DateTime
             .now()
-            .millisecondsSinceEpoch) {
+            .millisecondsSinceEpoch && goldMob.ads.videoIsReady) {
           goldMob.render(canvas);
         }
       });
+    }
+    if(goldMobs.length == 0){
+      spawnGoldMob();
     }
     if(damageDisplays != null) {
       damageDisplays.forEach((DamageDisplay damageDisplay) {
@@ -120,15 +123,12 @@ class GameView extends Game {
 
   void goldChest (double t) {
     if(goldMobs != null) {
-      if(goldMobs.length == 0){
-        spawnGoldMob();
-      }
       goldMobs.forEach((GoldMob gm) {
         gm.update(t);
         if(gm.isRewardedVideo){
           moneyDisplay.addMoney(gm.lootMoney);
           gm.isRewardedVideo = false;
-          goldMobs.removeWhere((GoldMob goldMob) => goldMob.isSpawned && goldMob.isOffScreen && !goldMob.isRewardedVideo);
+          gm = null;
         }
       });
       goldMobs.removeWhere((GoldMob goldMob) => goldMob.isSpawned && goldMob.isOffScreen && goldMob.isVideoAborded);
