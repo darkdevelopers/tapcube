@@ -62,6 +62,10 @@ class loadingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(saveGameData == null){
+      saveGameData = saveGame.blankContant;
+      print('Savegame loading error');
+    }
     gv = new GameView(saveGame, jsonDecode(saveGameData), context, dimension);
     Flame.util.addGestureRecognizer(gv.addGesture());
 

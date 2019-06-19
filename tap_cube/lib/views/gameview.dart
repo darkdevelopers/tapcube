@@ -118,22 +118,19 @@ class GameView extends Game {
     }
   }
 
-  void update(double t) {
+  void goldChest (double t) {
     if(goldMobs != null) {
-      goldMobs.removeWhere((GoldMob goldMob) =>
-      goldMob.isOffScreen && goldMob.isSpawned &&
-          (goldMob.isRewardedVideo || goldMob.isVideoAborded));
-      goldMobs.forEach((GoldMob goldMob) {
-        goldMob.update(t);
-        if (goldMob.isRewardedVideo) {
-          moneyDisplay.addMoney(goldMob.lootMoney);
-          goldMob.isRewardedVideo = false;
-        }
-      });
-      if (goldMobs.isEmpty) {
+      if(goldMobs.length == 0){
         spawnGoldMob();
       }
+      goldMobs.forEach((GoldMob gm) {
+        gm.update(t);
+      });
     }
+  }
+
+  void update(double t) {
+    goldChest(t);
     if(damageDisplays != null) {
       damageDisplays.forEach((DamageDisplay damageDisplay) =>
           damageDisplay.update(t));
@@ -150,6 +147,7 @@ class GameView extends Game {
         optionDisplay.isOpen = false;
       }
     }
+    updateSaveGame();
   }
 
   void spawnMonster() {

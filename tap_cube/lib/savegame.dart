@@ -3,19 +3,21 @@ import 'dart:io';
 
 class SaveGame {
   String blankContant = '{"Stage": 1, "MonsterLevelInStage": 1, "UserGold": 0.0,"UserDamage": 1.0, "UserLevel": 1, "Hp": 11.0}';
-  String path = null;
+  String path;
   String saveGame;
   Future<String> getSaveGame() async {
     path = await getSaveGamePath();
-    if(isSaveGameExists()){
+    if(path != null) {
+      if (isSaveGameExists()) {
+        saveGame = readString();
+      }
+
+      if (saveGame == null || saveGame.isEmpty) {
+        createSaveGame();
+      }
+
       saveGame = readString();
     }
-
-    if(saveGame == null || saveGame.isEmpty){
-      createSaveGame();
-    }
-
-    saveGame = readString();
     return saveGame;
   }
 

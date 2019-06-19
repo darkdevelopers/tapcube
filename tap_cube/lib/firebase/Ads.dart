@@ -8,35 +8,23 @@ const String testDevice = 'IphoneSimulator';
 
 class Ads {
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: testDevice != null ? <String>[testDevice] : null,
-    keywords: <String>[
-      'idle',
-      'best games',
-      'games',
-      'fun games',
-      'play free online games',
-      'play games',
-      'top games'
-    ],
-    childDirected: true,
-    nonPersonalizedAds: true,
+    testDevices: testDevice != null ? <String>[testDevice] : null
   );
 
   static const MobileAdTargetingInfo targetingInfoRelease = MobileAdTargetingInfo();
 
   void init() {
-      FirebaseAdMob.instance.initialize(appId: getAppId());
+    print('running');
+    FirebaseAdMob.instance.initialize(appId: getAppId());
   }
 
   void loadVideoAds(GoldMob goldMob) {
-    RewardedVideoAd.instance.listener =
-        (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
-      print("RewardedVideoAd event $event");
+    RewardedVideoAd.instance.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
       if (event == RewardedVideoAdEvent.loaded) {
         RewardedVideoAd.instance.show();
       }
       if (event == RewardedVideoAdEvent.failedToLoad) {
-        print("FAILED TO LOAD");
+        goldMob.isVideoAborded = true;
       }
       if (event == RewardedVideoAdEvent.rewarded) {
         goldMob.isRewardedVideo = true;
