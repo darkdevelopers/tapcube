@@ -29,7 +29,7 @@ class GoldMob extends Mob {
     mobSprite = Sprite('mobs/goldmob.png');
     mobRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
     context = _context;
-    ads = Ads();
+    ads = new Ads();
     ads.init();
     ads.loadListener(this);
     ads.loadVideoAds();

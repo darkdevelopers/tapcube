@@ -106,7 +106,7 @@ class GameView extends Game {
       goldMobs.forEach((GoldMob goldMob) {
         if (goldMob.newSpawnTime <= DateTime
             .now()
-            .millisecondsSinceEpoch && goldMob.ads.videoIsReady) {
+            .millisecondsSinceEpoch /*&& goldMob.ads.videoIsReady*/) {
           goldMob.render(canvas);
         }
       });
@@ -131,7 +131,7 @@ class GameView extends Game {
           gm = null;
         }
       });
-      goldMobs.removeWhere((GoldMob goldMob) => goldMob.isSpawned && goldMob.isOffScreen && goldMob.isVideoAborded);
+      goldMobs.removeWhere((GoldMob goldMob) => goldMob.isVideoAborded);
     }
   }
 

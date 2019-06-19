@@ -1,5 +1,4 @@
 import 'package:firebase_admob/firebase_admob.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:io' show Platform;
 
 import 'package:tap_cube/components/mob/goldmob.dart';
@@ -16,9 +15,7 @@ class Ads {
   static const MobileAdTargetingInfo targetingInfoRelease = MobileAdTargetingInfo();
 
   void init() {
-    if(FirebaseAdMob.instance == null) {
-      FirebaseAdMob.instance.initialize(appId: getAppId());
-    }
+    FirebaseAdMob.instance.initialize(appId: getAppId());
   }
   void loadListener(GoldMob goldMob){
     RewardedVideoAd.instance.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
@@ -26,6 +23,7 @@ class Ads {
         videoIsReady = true;
       }
       if (event == RewardedVideoAdEvent.failedToLoad) {
+        print('failed to load');
         goldMob.isVideoAborded = true;
       }
       if (event == RewardedVideoAdEvent.rewarded) {
@@ -49,7 +47,7 @@ class Ads {
 
   String getAdUnitId() {
     return Platform.isAndroid
-        ? 'ca-app-pub-8089412545634153/6410165060'
+        ? 'ca-app-pub-8089412545634153/5869006911'
         : 'ca-app-pub-8089412545634153/5863370155';
   }
 
