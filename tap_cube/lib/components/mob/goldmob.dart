@@ -53,7 +53,8 @@ class GoldMob extends Mob {
               FlatButton(
                 child: Text('Get \$\$\$'),
                 onPressed: () {
-                  ads.loadVideoAds(this);
+                  ads.loadListener(this);
+                  ads.loadVideoAds();
                   Navigator.of(context).pop();
                 },
               )
@@ -67,8 +68,8 @@ class GoldMob extends Mob {
   void setTargetLocation() {
     double left = start *
         (gv.screenSize.width - (gv.tileSize * 2.025));
-    double top = gv.rng.nextDouble() *
-        (gv.screenSize.height - (gv.tileSize * 1.025));
+    /*double top = gv.rng.nextDouble() *
+        (gv.screenSize.height - (gv.tileSize * 1.025));*/
     targetLocation = Offset(left, mobRect.top);
   }
 

@@ -7,6 +7,8 @@ import 'package:tap_cube/components/mob/goldmob.dart';
 const String testDevice = 'IphoneSimulator';
 
 class Ads {
+  bool videoIsReady = false;
+
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     testDevices: testDevice != null ? <String>[testDevice] : null
   );
@@ -14,13 +16,13 @@ class Ads {
   static const MobileAdTargetingInfo targetingInfoRelease = MobileAdTargetingInfo();
 
   void init() {
-    print('running');
-    FirebaseAdMob.instance.initialize(appId: getAppId());
+    if(FirebaseAdMob.instance == null) {
+      FirebaseAdMob.instance.initialize(appId: getAppId());
+    }
   }
-
-  void loadVideoAds(GoldMob goldMob) {
+  void loadListener(GoldMob goldMob){
     RewardedVideoAd.instance.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
-      if (event == RewardedVideoAdEvent.loaded) {
+      if(event == RewardedVideoAdEvent.loaded){
         RewardedVideoAd.instance.show();
       }
       if (event == RewardedVideoAdEvent.failedToLoad) {
@@ -29,7 +31,13 @@ class Ads {
       if (event == RewardedVideoAdEvent.rewarded) {
         goldMob.isRewardedVideo = true;
       }
+      if(event == RewardedVideoAdEvent.closed){
+        goldMob.isVideoAborded = true;
+      }
     };
+  }
+
+  void loadVideoAds() {
     RewardedVideoAd.instance.load(adUnitId: getAdUnitId(), targetingInfo: targetingInfoRelease);
   }
 

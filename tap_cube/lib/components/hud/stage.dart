@@ -39,11 +39,11 @@ class StageDisplay {
     );
     painter.text = TextSpan(
       style: textStyle,
-      text: "Stage: ${currentStage}"
+      text: "Stage: ${currentStage.toString()}"
     );
     levelPainter.text = TextSpan(
       style: textStyle,
-      text: "Monster: ${currentLevelInStage} / 8"
+      text: "Monster: ${currentLevelInStage.toString()} / 8"
     );
   }
 
@@ -78,11 +78,11 @@ class StageDisplay {
   void update(double t) {
     painter.text = TextSpan(
         style: textStyle,
-        text: "Stage: ${currentStage}"
+        text: "Stage: ${currentStage.toString()}"
     );
     levelPainter.text = TextSpan(
         style: textStyle,
-        text: "Monster: ${currentLevelInStage} / 8"
+        text: "Monster: ${currentLevelInStage.toString()} / 8"
     );
   }
 }
