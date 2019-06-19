@@ -41,7 +41,7 @@ class LifeBar {
     barPaint.color = new Color.fromRGBO(180, 180, 180, 1);
     livePaint.color = new Color.fromRGBO(255, 0, 0, 1);
     barRect = new Rect.fromLTWH(((gv.screenSize.width - (gv.tileSize * 6.4))),
-        ((gv.screenSize.height - (gv.tileSize * 13.5))), 200, 20);
+        130, 200, 20);
 
     if(currentLife <= 0.0){
       currentMobLife = life;
@@ -52,12 +52,12 @@ class LifeBar {
           text: "${currentMobLife.toStringAsFixed(1)} / ${mobLife.toStringAsFixed(1)} HP");
     }
     liveRect = new Rect.fromLTWH(
-        left, ((gv.screenSize.height - (gv.tileSize * 13.45))), lifeWidth, 16);
+        left, 132, lifeWidth, 16);
   }
 
   Offset getTextLocation() {
     double left = ((gv.screenSize.width - (gv.tileSize * 5)));
-    double top = ((gv.screenSize.height - (gv.tileSize * 13.45)));
+    double top = 132;//((gv.screenSize.height - (gv.tileSize * 13.45)));
     return Offset(left, top);
   }
 
@@ -77,12 +77,12 @@ class LifeBar {
       liveTextPaint.text = new TextSpan(
           text: "${currentMobLife.toStringAsFixed(1)} / ${mobLife.toStringAsFixed(1)} HP");
       liveRect = new Rect.fromLTWH(
-          left, ((gv.screenSize.height - (gv.tileSize * 13.45))), lifeWidth, 16);
+          left, 132, lifeWidth, 16);
     }
     if (currentMobLife <= 0.0) {
       lifeWidth = 0;
       liveRect = new Rect.fromLTWH(
-          left, ((gv.screenSize.height - (gv.tileSize * 13.45))), lifeWidth, 16);
+          left, 132, lifeWidth, 16);
       liveTextPaint.text = new TextSpan(
           text: "0.0 / ${mobLife.toStringAsFixed(1)} HP");
     }

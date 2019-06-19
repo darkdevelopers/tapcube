@@ -63,9 +63,7 @@ class loadingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     gv = new GameView(saveGame, jsonDecode(saveGameData), context, dimension);
-    /*Flame.util.addGestureRecognizer(new TapGestureRecognizer()
-    ..onTapDown = (TapDownDetails evt) => print('tap'));*/
-    flameUtil.addGestureRecognizer(gv.addGesture());
+    Flame.util.addGestureRecognizer(gv.addGesture());
 
     return gv.widget;
   }

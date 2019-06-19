@@ -214,8 +214,8 @@ class GameView extends Game {
   }
 
   void spawnUser() {
-    user = User(this, ((screenSize.width - tileSize) / 2),
-        ((screenSize.height - tileSize) / 1.5), saveGameDataArray['UserDamage'],
+    user = User(this, ((screenSize.width - (tileSize * 5))),
+        ((screenSize.height - (tileSize * 7.2))), saveGameDataArray['UserDamage'],
         saveGameDataArray['UserLevel']);
   }
 
@@ -323,7 +323,7 @@ class GameView extends Game {
   }
 
   TapGestureRecognizer addGesture(){
-    tapperGameView = TapGestureRecognizer();
+    tapperGameView = new TapGestureRecognizer();
     tapperGameView.onTapDown = onTapDown;
     return tapperGameView;
   }

@@ -17,7 +17,7 @@ class MoneyDisplay {
     setTargetLocation();
     moneySprite = Sprite('hud/muenze.png');
     moneyRect = Rect.fromLTWH(((gv.screenSize.width - (gv.tileSize * 6.5))),
-        ((gv.screenSize.height - (gv.tileSize * 14.2))), 25, 25);
+        95, 25, 25); //((gv.screenSize.height - (gv.tileSize * 14.2)))
     painter = TextPainter(
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
@@ -42,7 +42,7 @@ class MoneyDisplay {
 
   void setTargetLocation() {
     double left = ((gv.screenSize.width - (gv.tileSize * 5.8)));
-    double top = ((gv.screenSize.height - (gv.tileSize * 14.25)));
+    double top = 95;//((gv.screenSize.height - (gv.tileSize * 14.25)));
     targetLocation = Offset(left, top);
   }
 

@@ -49,13 +49,13 @@ class StageDisplay {
 
   void setTargetLocation() {
     double left = ((gv.screenSize.width - (gv.tileSize * 6.5)));
-    double top = ((gv.screenSize.height - (gv.tileSize * 15.5)));
+    double top = 40;//((gv.screenSize.height - (gv.tileSize * 17)));
     targetLocation = Offset(left, top);
   }
 
   void setTargetLocationLevel() {
     double left = ((gv.screenSize.width - (gv.tileSize * 6.5)));
-    double top = ((gv.screenSize.height - (gv.tileSize * 14.9)));
+    double top = 65;//((gv.screenSize.height - (gv.tileSize * 17.9)));
     targetLocationLevel = Offset(left, top);
   }
 
