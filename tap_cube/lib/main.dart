@@ -16,10 +16,12 @@ final Util flameUtil = new Util();
 final SaveGame saveGame = SaveGame();
 
 String saveGameData;
+var dimension;
 
 void main() async {
   await flameUtil.fullScreen();
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
+  dimension = await Flame.util.initialDimensions();
 
   Flame.images.loadAll(<String>[
     'bg/background.png',
@@ -60,7 +62,7 @@ class loadingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    gv = new GameView(saveGame, jsonDecode(saveGameData), context);
+    gv = new GameView(saveGame, jsonDecode(saveGameData), context, dimension);
     /*Flame.util.addGestureRecognizer(new TapGestureRecognizer()
     ..onTapDown = (TapDownDetails evt) => print('tap'));*/
     flameUtil.addGestureRecognizer(gv.addGesture());

@@ -5,7 +5,6 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tap_cube/components/background.dart';
 import 'package:tap_cube/components/user.dart';
 import 'package:tap_cube/components/mob/mob.dart';
@@ -22,6 +21,7 @@ import 'package:tap_cube/state/optionstates.dart';
 
 class GameView extends Game {
   final optionStates _optionStates = optionStates.getInstance();
+  var size;
 
   int currentUserDamage = 0;
   double tileSize;
@@ -49,16 +49,18 @@ class GameView extends Game {
   TapGestureRecognizer tapperGameView;
 
   GameView(SaveGame _saveGame, Map<String, dynamic> _saveGameDataArray,
-      BuildContext _context) {
+      BuildContext _context, Size dimension) {
+    resize(dimension);
+    size = dimension;
     saveGame = _saveGame;
     saveGameDataArray = _saveGameDataArray;
     context = _context;
-    SystemChrome.setEnabledSystemUIOverlays ([]);
     initialize();
   }
 
+
+
   void initialize() async {
-    resize(await Flame.util.initialDimensions());
     background = Background(this);
     goldMobs = List<GoldMob>();
     damageDisplays = List<DamageDisplay>();
@@ -77,86 +79,113 @@ class GameView extends Game {
   }
 
   void render(Canvas canvas) {
-    background.render(canvas);
+    resize(size);
+    if(background != null){
+      background.render(canvas);
+    }
     if (mob != null) {
       mob.render(canvas);
     }
     if (boss != null) {
       boss.render(canvas);
     }
-    user.render(canvas);
+    if(user != null){
+      user.render(canvas);
+    }
+    if(stageDisplay != null) {
+      stageDisplay.render(canvas);
+    }
+    if(moneyDisplay != null) {
+      moneyDisplay.render(canvas);
+    }
+    if(optionDisplay != null){
+      optionDisplay.render(canvas);
+    }
 
-    stageDisplay.render(canvas);
-    moneyDisplay.render(canvas);
-    optionDisplay.render(canvas);
-
-    goldMobs.forEach((GoldMob goldMob) {
-      if (goldMob.newSpawnTime <= DateTime
-          .now()
-          .millisecondsSinceEpoch) {
-        goldMob.render(canvas);
-      }
-    });
-    damageDisplays.forEach((DamageDisplay damageDisplay) {
-      damageDisplay.render(canvas);
-    });
+    if(goldMobs !=  null) {
+      goldMobs.forEach((GoldMob goldMob) {
+        if (goldMob.newSpawnTime <= DateTime
+            .now()
+            .millisecondsSinceEpoch) {
+          goldMob.render(canvas);
+        }
+      });
+    }
+    if(damageDisplays != null) {
+      damageDisplays.forEach((DamageDisplay damageDisplay) {
+        damageDisplay.render(canvas);
+      });
+    }
   }
 
   void update(double t) {
-    goldMobs.removeWhere((GoldMob goldMob) =>
-    goldMob.isOffScreen && goldMob.isSpawned && (goldMob.isRewardedVideo || goldMob.isVideoAborded));
-    goldMobs.forEach((GoldMob goldMob) {
-      goldMob.update(t);
-      if(goldMob.isRewardedVideo) {
-        moneyDisplay.addMoney(goldMob.lootMoney);
-        goldMob.isRewardedVideo=false;
+    if(goldMobs != null) {
+      goldMobs.removeWhere((GoldMob goldMob) =>
+      goldMob.isOffScreen && goldMob.isSpawned &&
+          (goldMob.isRewardedVideo || goldMob.isVideoAborded));
+      goldMobs.forEach((GoldMob goldMob) {
+        goldMob.update(t);
+        if (goldMob.isRewardedVideo) {
+          moneyDisplay.addMoney(goldMob.lootMoney);
+          goldMob.isRewardedVideo = false;
+        }
+      });
+      if (goldMobs.isEmpty) {
+        spawnGoldMob();
       }
-    });
-    if (goldMobs.isEmpty) {
-      spawnGoldMob();
     }
-    damageDisplays.forEach((DamageDisplay damageDisplay) =>
-        damageDisplay.update(t));
-    damageDisplays.removeWhere((DamageDisplay damageDisplay) =>
-    damageDisplay.isOffScreen);
+    if(damageDisplays != null) {
+      damageDisplays.forEach((DamageDisplay damageDisplay) =>
+          damageDisplay.update(t));
+      damageDisplays.removeWhere((DamageDisplay damageDisplay) =>
+      damageDisplay.isOffScreen);
+    }
     spawnMonster();
     updateMonster(t);
-    user.update(t);
-    if(!_optionStates.isOptionDialogOpen){
-      optionDisplay.isOpen = false;
+    if(user != null) {
+      user.update(t);
+    }
+    if (!_optionStates.isOptionDialogOpen) {
+      if(optionDisplay != null) {
+        optionDisplay.isOpen = false;
+      }
     }
   }
 
   void spawnMonster() {
-    if (stageDisplay.currentLevelInStage < 8 && mob == null) {
-      spawnMob();
-    } else if (stageDisplay.currentLevelInStage == 8 && boss == null) {
-      spawnBoss();
+    if(stageDisplay != null) {
+      if (stageDisplay.currentLevelInStage < 8 && mob == null) {
+        spawnMob();
+      } else if (stageDisplay.currentLevelInStage == 8 && boss == null) {
+        spawnBoss();
+      }
     }
   }
 
   void updateMonster(double t) {
-    if (stageDisplay.currentLevelInStage < 8 && mob != null) {
-      mob.update(t);
-      updateHpSaveGame();
-      if (mob.isDead && mob.isOffScreen) {
-        moneyDisplay.addMoney(mob.lootMoney);
-        moneyDisplay.update(t);
-        stageDisplay.incrementLevel();
-        stageDisplay.update(t);
-        updateSaveGame();
-        mob = null;
-      }
-    } else if (stageDisplay.currentLevelInStage == 8 && boss != null) {
-      boss.update(t);
-      updateHpSaveGame();
-      if (boss.isDead && boss.isOffScreen) {
-        moneyDisplay.addMoney(boss.lootMoney);
-        moneyDisplay.update(t);
-        stageDisplay.incrementLevel();
-        stageDisplay.update(t);
-        updateSaveGame();
-        boss = null;
+    if(stageDisplay != null) {
+      if (stageDisplay.currentLevelInStage < 8 && mob != null) {
+        mob.update(t);
+        updateHpSaveGame();
+        if (mob.isDead && mob.isOffScreen) {
+          moneyDisplay.addMoney(mob.lootMoney);
+          moneyDisplay.update(t);
+          stageDisplay.incrementLevel();
+          stageDisplay.update(t);
+          updateSaveGame();
+          mob = null;
+        }
+      } else if (stageDisplay.currentLevelInStage == 8 && boss != null) {
+        boss.update(t);
+        updateHpSaveGame();
+        if (boss.isDead && boss.isOffScreen) {
+          moneyDisplay.addMoney(boss.lootMoney);
+          moneyDisplay.update(t);
+          stageDisplay.incrementLevel();
+          stageDisplay.update(t);
+          updateSaveGame();
+          boss = null;
+        }
       }
     }
   }
@@ -207,9 +236,8 @@ class GameView extends Game {
     if(currentLife <= 0.0){
       currentLife = life;
     }
-
-    mob = Mob(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1),
+    mob = Mob(this, ((screenSize.width - (tileSize * 8))),
+        ((screenSize.height - (tileSize * 10.5))),
         life,
         currentLife,
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
@@ -228,8 +256,8 @@ class GameView extends Game {
       currentLife = life;
     }
 
-    boss = Boss(this, ((screenSize.width - tileSize * 3) / 4),
-        ((screenSize.height - tileSize) / 2.1),
+    boss = Boss(this, ((screenSize.width - (tileSize * 8))),
+        ((screenSize.height - (tileSize * 10.5))),
         life,
         currentLife,
         stageDisplay.currentStage, stageDisplay.currentLevelInStage);
@@ -291,12 +319,6 @@ class GameView extends Game {
           }
         }
       }
-    }
-  }
-
-  void reloadGesture(){
-    if(tapperGameView != null){
-      tapperGameView.onTapDown = onTapDown;
     }
   }
 

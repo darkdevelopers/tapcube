@@ -80,21 +80,21 @@ class User {
     barPaint = new Paint();
     barPaint.color = new Color.fromRGBO(35, 35, 35, 0.6);
     barRect = new Rect.fromLTWH(0,
-        ((gv.screenSize.height - gv.tileSize) / 1.1), gv.screenSize.width, 150);
+        ((gv.screenSize.height - (gv.tileSize * 2.5))), gv.screenSize.width, 150);
 
     userDamageSprite = Sprite('hud/interaction.png');
-    userDamageRect = Rect.fromLTWH((gv.screenSize.width - gv.tileSize) / 1.3,
-        (gv.screenSize.height - gv.tileSize) / 1.06, gv.tileSize * 2.5,
+    userDamageRect = Rect.fromLTWH((gv.screenSize.width - (gv.tileSize * 3)),
+        (gv.screenSize.height - (gv.tileSize * 1.9)), gv.tileSize * 2.5,
         gv.tileSize * 1.25);
 
     userDamageSpriteDisabled = Sprite('hud/interaction_disabled.png');
-    userDamageRectDisabled = Rect.fromLTWH((gv.screenSize.width - gv.tileSize) / 1.3,
-        (gv.screenSize.height - gv.tileSize) / 1.06, gv.tileSize * 2.5,
+    userDamageRectDisabled = Rect.fromLTWH((gv.screenSize.width - (gv.tileSize * 3)),
+        (gv.screenSize.height - (gv.tileSize * 1.9)), gv.tileSize * 2.5,
         gv.tileSize * 1.25);
 
     moneySprite = Sprite('hud/muenze.png');
-    moneyRect = Rect.fromLTWH(((gv.screenSize.width - gv.tileSize) / 1.27),
-        ((gv.screenSize.height - gv.tileSize) / 1.055), 20, 20);
+    moneyRect = Rect.fromLTWH(((gv.screenSize.width - (gv.tileSize * 2.8))),
+        ((gv.screenSize.height - (gv.tileSize * 1.85))), 20, 20);
 
     calculatePriceAndDamage();
 
@@ -160,32 +160,32 @@ class User {
   }
 
   void setTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.15);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.057);
+    double left = ((gv.screenSize.width - (gv.tileSize * 2.1)));
+    double top = ((gv.screenSize.height - (gv.tileSize * 1.86)));
     targetLocation = Offset(left, top);
   }
 
   void setDmgTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 1.285);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.02);
+    double left = ((gv.screenSize.width - (gv.tileSize * 2.7)));
+    double top = ((gv.screenSize.height - (gv.tileSize * 1.2)));
     dmgTargetLocation = Offset(left, top);
   }
 
   void setUserInformationTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 17);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.07);
+    double left = ((gv.screenSize.width - (gv.tileSize * 8.5)));
+    double top = ((gv.screenSize.height - (gv.tileSize * 2)));
     userInformationTargetLocation = Offset(left, top);
   }
 
   void setUserTapDmgTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 17);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.04);
+    double left = ((gv.screenSize.width - (gv.tileSize * 8.5)));
+    double top = ((gv.screenSize.height - (gv.tileSize * 1.5)));
     userTapDmgTargetLocation = Offset(left, top);
   }
 
   void setUserLevelTargetLocation() {
-    double left = ((gv.screenSize.width - gv.tileSize) / 17);
-    double top = ((gv.screenSize.height - gv.tileSize) / 1.01);
+    double left = ((gv.screenSize.width - (gv.tileSize * 8.5)));
+    double top = ((gv.screenSize.height - (gv.tileSize * 1)));
     userLevelTargetLocation = Offset(left, top);
   }
 
