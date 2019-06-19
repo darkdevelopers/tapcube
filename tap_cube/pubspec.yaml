@@ -30,8 +30,7 @@ dependencies:
   firebase_analytics: ^3.0.1
   firebase_database: ^3.0.2
   connectivity: ^0.4.3+2
-
-
+  simple_permissions: ^0.1.9
 
 dev_dependencies:
   flutter_test:
