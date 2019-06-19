@@ -20,6 +20,7 @@ var dimension;
 
 void main() async {
   await flameUtil.fullScreen();
+  SystemChrome.setEnabledSystemUIOverlays([]);
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
   dimension = await Flame.util.initialDimensions();
 
