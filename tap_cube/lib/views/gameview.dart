@@ -201,7 +201,7 @@ class GameView extends Game {
       life = (((stageDisplay.currentStage *
           (stageDisplay.currentLevelInStage / 10 + stageDisplay.currentStage)) +
           (stageDisplay.currentLevelInStage / 10 + 1) * (user.userLevel)) * 2 *
-          10 * 1) * 4;
+          10 * 1) * 10;
     }
     if(currentLife <= 0.0){
       currentLife = life;
@@ -221,7 +221,7 @@ class GameView extends Game {
     life = (((stageDisplay.currentStage * (stageDisplay.currentLevelInStage / 5 +
         stageDisplay.currentStage)) +
         (stageDisplay.currentLevelInStage / 10 + 1) *
-            (user.userLevel / 2)) * 2 * 10 * 1) * 5;
+            (user.userLevel / 2)) * 2 * 10 * 1) * 15;
 
     if(currentLife <= 0.0){
       currentLife = life;
