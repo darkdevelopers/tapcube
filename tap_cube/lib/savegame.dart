@@ -3,35 +3,43 @@ import 'dart:io';
 
 class SaveGame {
   String blankContant = '{"Stage": 1, "MonsterLevelInStage": 1, "UserGold": 0.0,"UserDamage": 1.0, "UserLevel": 1, "Hp": 11.0}';
+  String path = null;
+  String saveGame;
   Future<String> getSaveGame() async {
-    if(await isSaveGameExists()){
-      return await readString();
+    path = await getSaveGamePath();
+    if(isSaveGameExists()){
+      saveGame = readString();
     }
-    createSaveGame();
-    return await readString();
+
+    if(saveGame == null || saveGame.isEmpty){
+      createSaveGame();
+    }
+
+    saveGame = readString();
+    return saveGame;
   }
 
-  void setSaveGame(String content) async {
+  void setSaveGame(String content) {
     if(content.isNotEmpty) {
-      await File("${await getSaveGamePath()}/tapcube.save").writeAsString(content);
+      File(path+"/tapcube.save").writeAsStringSync(content);
     }
   }
 
-  Future<String> readString() async {
-    return await File("${await getSaveGamePath()}/tapcube.save").readAsString();
+  String readString() {
+    return File(path+"/tapcube.save").readAsStringSync();
   }
 
   Future<File> getFile() async {
     return File("${await getSaveGamePath()}/tapcube.save");
   }
 
-  Future<bool> isSaveGameExists() async {
-    return await File("${await getSaveGamePath()}/tapcube.save").exists();
+  bool isSaveGameExists() {
+    return File(path+"/tapcube.save").existsSync();
   }
 
-  void createSaveGame() async {
-    await File("${await getSaveGamePath()}/tapcube.save").create();
-    await setSaveGame(blankContant);
+  void createSaveGame()  {
+    File(path+"/tapcube.save").createSync();
+    setSaveGame(blankContant);
   }
 
   Future<String> getSaveGamePath() async {
