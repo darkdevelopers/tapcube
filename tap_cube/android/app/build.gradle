@@ -42,7 +42,7 @@ android {
     defaultConfig {
         applicationId "de.darkdevelopers.tapcube"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
