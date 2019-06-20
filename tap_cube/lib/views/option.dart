@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tap_cube/state/optionstates.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final optionStates _optionStates = optionStates.getInstance();
 
@@ -35,18 +33,36 @@ class OptionState extends State<Option> {
         ListTile(
           title: Text('Impressum'),
           onTap: (){
-            Navigator.of(context).pushNamed('/impressum');
+            _launchImpressumURL();
           },
           trailing: Icon(Icons.arrow_right),
         ),
         ListTile(
           title: Text('Datenschutz'),
           onTap: (){
-            Navigator.of(context).pushNamed('/datenschutz');
+            _launchDatenschutzURL();
           },
           trailing: Icon(Icons.arrow_right),
         ),
       ]),
     );
+  }
+
+  _launchImpressumURL() async {
+    const url = 'https://tapcube.darkdevelopers.de/impressum.html';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _launchDatenschutzURL() async {
+    const url = 'https://tapcube.darkdevelopers.de/datenschutzerklaerung.html';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

@@ -7,8 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/savegame.dart';
 import 'package:tap_cube/views/option.dart';
-import 'package:tap_cube/views/impressum.dart';
-import 'package:tap_cube/views/datenschutz.dart';
 
 final Util flameUtil = new Util();
 final SaveGame saveGame = SaveGame();
@@ -48,8 +46,6 @@ void main() async {
       ),
       routes: {
         '/option': (context) => Option(),
-        '/impressum': (context) => Impressum(),
-        '/datenschutz': (context) => Datenschutz(),
       },
       debugShowCheckedModeBanner: !kReleaseMode,
     )
