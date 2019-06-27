@@ -10,6 +10,7 @@ class GoldMob extends Mob {
   int newSpawnTime = 0;
   int minDelay = 1;
   int maxDelay = 2;
+  double topValue;
   bool isOffScreen = false;
   bool isTabed = false;
   bool isSpawned = false;
@@ -22,12 +23,16 @@ class GoldMob extends Mob {
   BuildContext context;
 
   GoldMob(GameView gv, double left, double top, double live, double currentLive, int _stage, int _monsterLevel, BuildContext _context) : super (gv, left, top, live, currentLive, _stage, _monsterLevel) {
+    topValue = top;
+    if(topValue < 75){
+      topValue += 75;
+    }
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
-    Duration duration = Duration(minutes: delay);
+    Duration duration = Duration(seconds: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');
-    mobRect = Rect.fromLTWH(left, top, gv.tileSize, gv.tileSize);
+    mobRect = Rect.fromLTWH(left, topValue, gv.tileSize, gv.tileSize);
     context = _context;
     ads = new Ads();
     ads.init();

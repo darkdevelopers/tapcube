@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flame/sprite.dart';
 import 'package:tap_cube/views/gameview.dart';
+import 'package:tap_cube/views/option.dart';
 
 class OptionDisplay {
   final GameView gv;
@@ -23,7 +24,11 @@ class OptionDisplay {
   void update(double t) {}
 
   void onTapDown(){
-    Navigator.of(context).pushNamed('/option');
+   // Navigator.of(context).pushNamed('/option');
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => new Option()),
+    );
     isOpen = true;
   }
 }

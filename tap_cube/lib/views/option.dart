@@ -20,8 +20,8 @@ class OptionState extends State<Option> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pop();
             _optionStates.isOptionDialogOpen = false;
+            Navigator.pop(context);
           },
         ),
       ),

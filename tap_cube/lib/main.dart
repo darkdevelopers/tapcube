@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/savegame.dart';
-import 'package:tap_cube/views/option.dart';
 
 final Util flameUtil = new Util();
 final SaveGame saveGame = SaveGame();
@@ -44,9 +43,6 @@ void main() async {
       home: Scaffold(
         body: loadingApp(),
       ),
-      routes: {
-        '/option': (context) => Option(),
-      },
       debugShowCheckedModeBanner: !kReleaseMode,
     )
   );

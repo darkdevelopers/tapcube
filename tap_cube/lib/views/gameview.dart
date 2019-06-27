@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
 import 'dart:convert';
-import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
