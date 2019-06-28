@@ -6,24 +6,18 @@ final optionStates _optionStates = optionStates.getInstance();
 
 class Option extends StatefulWidget {
   @override
-  State createState() {
-    return OptionState();
-  }
+  OptionState createState() => new OptionState();
 }
 
-class OptionState extends State<Option> {
+class OptionState extends State<Option> with AutomaticKeepAliveClientMixin<Option> {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Tap Cube - Options"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            _optionStates.isOptionDialogOpen = false;
-            Navigator.pop(context);
-          },
-        ),
       ),
       body: ListView(children: <Widget>[
         Padding(

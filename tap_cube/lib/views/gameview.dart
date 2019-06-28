@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'dart:convert';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -47,24 +48,29 @@ class GameView extends Game {
 
   TapGestureRecognizer tapperGameView;
 
-  GameView(SaveGame _saveGame, Map<String, dynamic> _saveGameDataArray,
+  GameView(SaveGame _saveGame,
       BuildContext _context, Size dimension) {
     resize(dimension);
     size = dimension;
     saveGame = _saveGame;
-    saveGameDataArray = _saveGameDataArray;
     context = _context;
+
     initialize();
   }
 
-
-
   void initialize() async {
+    // Loading the savegame
+    saveGameDataArray = jsonDecode(await saveGame.getSaveGame());
+
+    if(saveGameDataArray == null || saveGameDataArray.isEmpty){
+      saveGameDataArray = jsonDecode(saveGame.blankContent);
+      print('Savegame loading error');
+    }
+
     background = Background(this);
     goldMobs = List<GoldMob>();
     damageDisplays = List<DamageDisplay>();
-    stageDisplay = StageDisplay(this, saveGameDataArray['Stage'],
-        saveGameDataArray['MonsterLevelInStage']);
+    stageDisplay = StageDisplay(this, saveGameDataArray['Stage'], saveGameDataArray['MonsterLevelInStage']);
     moneyDisplay = MoneyDisplay(this, saveGameDataArray['UserGold']);
     optionDisplay = OptionDisplay(this, context);
     rng = Random();
@@ -109,10 +115,11 @@ class GameView extends Game {
           goldMob.render(canvas);
         }
       });
+      if(goldMobs.length == 0){
+        spawnGoldMob();
+      }
     }
-    if(goldMobs.length == 0){
-      spawnGoldMob();
-    }
+
     if(damageDisplays != null) {
       damageDisplays.forEach((DamageDisplay damageDisplay) {
         damageDisplay.render(canvas);
@@ -170,24 +177,20 @@ class GameView extends Game {
     if(stageDisplay != null) {
       if (stageDisplay.currentLevelInStage < 8 && mob != null) {
         mob.update(t);
-        updateHpSaveGame();
         if (mob.isDead && mob.isOffScreen) {
           moneyDisplay.addMoney(mob.lootMoney);
           moneyDisplay.update(t);
           stageDisplay.incrementLevel();
           stageDisplay.update(t);
-          updateSaveGame();
           mob = null;
         }
       } else if (stageDisplay.currentLevelInStage == 8 && boss != null) {
         boss.update(t);
-        updateHpSaveGame();
         if (boss.isDead && boss.isOffScreen) {
           moneyDisplay.addMoney(boss.lootMoney);
           moneyDisplay.update(t);
           stageDisplay.incrementLevel();
           stageDisplay.update(t);
-          updateSaveGame();
           boss = null;
         }
       }
@@ -195,15 +198,17 @@ class GameView extends Game {
   }
 
   void updateSaveGame() {
-    saveGameDataArray['Stage'] = stageDisplay.currentStage;
-    saveGameDataArray['MonsterLevelInStage'] = stageDisplay.currentLevelInStage;
-    saveGameDataArray['UserGold'] = moneyDisplay.currentMoney;
-    saveGameDataArray['UserDamage'] = user.currentDamage;
-    saveGameDataArray['UserLevel'] = user.userLevel;
-    saveGame.setSaveGame(jsonEncode(saveGameDataArray));
-  }
-
-  void updateHpSaveGame(){
+    if(stageDisplay != null) {
+      saveGameDataArray['Stage'] = stageDisplay.currentStage;
+      saveGameDataArray['MonsterLevelInStage'] = stageDisplay.currentLevelInStage;
+    }
+    if(moneyDisplay != null){
+      saveGameDataArray['UserGold'] = moneyDisplay.currentMoney;
+    }
+    if(user != null) {
+      saveGameDataArray['UserDamage'] = user.currentDamage;
+      saveGameDataArray['UserLevel'] = user.userLevel;
+    }
     if(mob != null) {
       saveGameDataArray['Hp'] = mob.mobBar.currentMobLife;
     }else if(boss != null){
@@ -327,6 +332,7 @@ class GameView extends Game {
   }
 
   TapGestureRecognizer addGesture(){
+    tapperGameView = null;
     tapperGameView = new TapGestureRecognizer();
     tapperGameView.onTapDown = onTapDown;
     return tapperGameView;

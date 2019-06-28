@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flame/flame.dart';
 import 'package:flame/util.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/savegame.dart';
+import 'package:tap_cube/views/option.dart';
 
 final Util flameUtil = new Util();
 final SaveGame saveGame = SaveGame();
@@ -35,8 +35,6 @@ void main() async {
     'hud/option.png'
   ]);
 
-  saveGameData = await saveGame.getSaveGame();
-
   runApp(
     MaterialApp(
       title: 'Tapcube',
@@ -48,18 +46,22 @@ void main() async {
   );
 }
 
-class loadingApp extends StatelessWidget {
+class loadingApp extends StatefulWidget {
+  @override
+  loadingAppState createState() => new loadingAppState();
+}
+
+class loadingAppState extends State<loadingApp> with AutomaticKeepAliveClientMixin<loadingApp> {
+  @override
+  bool get wantKeepAlive => true;
+
   GameView gv;
 
   @override
   Widget build(BuildContext context) {
-    if(saveGameData == null){
-      saveGameData = saveGame.blankContant;
-      print('Savegame loading error');
-    }
-    gv = new GameView(saveGame, jsonDecode(saveGameData), context, dimension);
-    Flame.util.addGestureRecognizer(gv.addGesture());
-
+    gv = new GameView(saveGame, context, dimension);
+    Flame.util.addGestureRecognizer(gv.addGesture()); // Loading the gesture
+    print('loading');
     return gv.widget;
   }
 }
