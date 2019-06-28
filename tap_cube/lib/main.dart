@@ -61,7 +61,7 @@ class loadingAppState extends State<loadingApp> with AutomaticKeepAliveClientMix
   Widget build(BuildContext context) {
     gv = new GameView(saveGame, context, dimension);
     Flame.util.addGestureRecognizer(gv.addGesture()); // Loading the gesture
-    print('loading');
+
     return gv.widget;
   }
 }
