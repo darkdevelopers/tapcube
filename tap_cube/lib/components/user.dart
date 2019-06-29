@@ -49,7 +49,7 @@ class User {
 
   void calculatePriceAndDamage(){
     nextDamageUpdate = (5 + (userLevel / 10 + 1) * 1.05) + (((userLevel + 1.05) / 10) + 1.05);
-    nextUserLevelPrice = (13 * 1.25 * (userLevel / 10 + 1)) * (1.5 * userLevel);
+    nextUserLevelPrice = (13 * 1.25 * (userLevel / 10 + 1)) * (1.5 * (userLevel / 2));
   }
 
   void printText(){
