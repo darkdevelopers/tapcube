@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:tap_cube/translation.dart';
 import 'package:tap_cube/views/gameview.dart';
 
 class StageDisplay {
@@ -11,8 +13,10 @@ class StageDisplay {
   Offset targetLocationLevel;
   int currentStage = 1;
   int currentLevelInStage = 1;
+  BuildContext context;
 
-  StageDisplay(this.gv, int _currentStage, int _currentLevelInStage) {
+  StageDisplay(this.gv, int _currentStage, int _currentLevelInStage, BuildContext _context) {
+    context = _context;
     currentStage = _currentStage;
     currentLevelInStage = _currentLevelInStage;
     setTargetLocation();
@@ -78,11 +82,11 @@ class StageDisplay {
   void update(double t) {
     painter.text = TextSpan(
         style: textStyle,
-        text: "Stage: ${currentStage.toString()}"
+        text: Translations.of(context).text('stage') + ": ${currentStage.toString()}"
     );
     levelPainter.text = TextSpan(
         style: textStyle,
-        text: "Monster: ${currentLevelInStage.toString()} / 8"
+        text: Translations.of(context).text('monster') + ": ${currentLevelInStage.toString()} / 8"
     );
   }
 }

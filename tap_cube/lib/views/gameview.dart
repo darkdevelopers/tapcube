@@ -70,7 +70,7 @@ class GameView extends Game {
     background = Background(this);
     goldMobs = List<GoldMob>();
     damageDisplays = List<DamageDisplay>();
-    stageDisplay = StageDisplay(this, saveGameDataArray['Stage'], saveGameDataArray['MonsterLevelInStage']);
+    stageDisplay = StageDisplay(this, saveGameDataArray['Stage'], saveGameDataArray['MonsterLevelInStage'], context);
     moneyDisplay = MoneyDisplay(this, saveGameDataArray['UserGold']);
     optionDisplay = OptionDisplay(this, context);
     rng = Random();
@@ -225,7 +225,7 @@ class GameView extends Game {
   void spawnUser() {
     user = User(this, ((screenSize.width - (tileSize * 5))),
         ((screenSize.height - (tileSize * 7.2))), saveGameDataArray['UserDamage'],
-        saveGameDataArray['UserLevel']);
+        saveGameDataArray['UserLevel'], context);
   }
 
   void spawnMob() {

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flame/sprite.dart';
+import 'package:tap_cube/translation.dart';
 import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/firebase/Ads.dart';
 import 'package:tap_cube/components/mob/mob.dart';
@@ -47,18 +48,18 @@ class GoldMob extends Mob {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('GOLD CHEST'),
-            content: Text('you get gold "${lootMoney.toStringAsFixed(2)}" for watching this Video.'),
+            title: Text(Translations.of(context).text('goldchest')),
+            content: Text(Translations.of(context).text('goldchest_description').replaceAll('%s', lootMoney.toStringAsFixed(2))),
             actions: <Widget>[
               FlatButton(
-                child: Text('Don\' need \$\$\$'),
+                child: Text(Translations.of(context).text('goldchest_abort')),
                 onPressed: () {
                   isVideoAborded = true;
                   Navigator.of(context).pop();
                 },
               ),
               FlatButton(
-                child: Text('Get \$\$\$'),
+                child: Text(Translations.of(context).text('goldchest_ok')),
                 onPressed: () {
                   ads.startVideo();
                   Navigator.of(context).pop();

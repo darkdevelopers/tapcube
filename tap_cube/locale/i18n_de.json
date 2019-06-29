@@ -1,4 +1,15 @@
 {
-  "app_title": "App Titel",
-  "main_title": "Main Titel"
+  "stage": "Stufe",
+  "monster": "Monster",
+  "playinformations": "Spieler Informationen",
+  "tapdmg": "Tippschaden",
+  "level": "Spieler Level",
+  "goldchest": "GOLD TRUHE",
+  "goldchest_description": "Schau das Video und du bekommst %s Gold.",
+  "goldchest_abort": "Will ich nicht!",
+  "goldchest_ok": "Klar gib her!",
+  "option_general_informations": "Allgemeine Informationen",
+  "option_impressum": "Impressum",
+  "option_privacy_policy": "Datenschutzerklärung",
+  "option_close": "Schließen"
 }

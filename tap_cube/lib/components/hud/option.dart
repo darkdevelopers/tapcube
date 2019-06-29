@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flame/sprite.dart';
 import 'package:tap_cube/views/gameview.dart';
-import 'package:tap_cube/views/option.dart';
+import 'package:tap_cube/translation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OptionDisplay {
@@ -40,21 +40,21 @@ class OptionDisplay {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Allgemeine Informationen'),
+            title: Text(Translations.of(context).text('option_general_informations')),
             content: Container(
               width: gv.screenSize.width,
               height: gv.screenSize.height,
               child: SingleChildScrollView(
                 child: ListBody(children: <Widget>[
                   ListTile(
-                    title: Text('Impressum'),
+                    title: Text(Translations.of(context).text('option_impressum')),
                     onTap: (){
                       _launchImpressumURL();
                     },
                     trailing: Icon(Icons.arrow_right),
                   ),
                   ListTile(
-                    title: Text('Datenschutz'),
+                    title: Text(Translations.of(context).text('option_privacy_policy')),
                     onTap: (){
                       _launchDatenschutzURL();
                     },
@@ -65,7 +65,7 @@ class OptionDisplay {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Close'),
+                child: Text(Translations.of(context).text('option_close')),
                 onPressed: () {
                   isOpen = false;
                   Navigator.of(context).pop();

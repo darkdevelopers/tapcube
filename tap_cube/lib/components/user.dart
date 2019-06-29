@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flame/sprite.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:tap_cube/translation.dart';
 import 'package:tap_cube/views/gameview.dart';
 
 class User {
@@ -32,8 +34,10 @@ class User {
   double nextUserLevelPrice;
   int userLevel;
   bool isUpgradeAvailable = false;
+  BuildContext context;
 
-  User(this.gv, double left, double top, double damage, int _userLevel) {
+  User(this.gv, double left, double top, double damage, int _userLevel, BuildContext _context) {
+    context = _context;
     currentDamage = damage;
     userLevel = _userLevel;
 
@@ -61,17 +65,17 @@ class User {
 
     userInformationPrinter.text = TextSpan(
         style: textStyle,
-        text: "Player Informations"
+        text: Translations.of(context).text('playinformations')
     );
 
     userTapDmgPrinter.text = TextSpan(
         style: textStyle,
-        text: "Tapdamage: ${currentDamage.toStringAsFixed(2)} DMG"
+        text: Translations.of(context).text('tapdmg') + ": ${currentDamage.toStringAsFixed(2)} DMG"
     );
 
     userLevelPainter.text = TextSpan(
         style: textStyle,
-        text: "Level: ${userLevel.toString()}"
+        text: Translations.of(context).text('level') + ": ${userLevel.toString()}"
     );
   }
 

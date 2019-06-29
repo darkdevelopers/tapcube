@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tap_cube/views/gameview.dart';
 import 'package:tap_cube/savegame.dart';
-import 'package:tap_cube/views/option.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tap_cube/translation.dart';
 
 final Util flameUtil = new Util();
 final SaveGame saveGame = SaveGame();
@@ -41,6 +42,15 @@ void main() async {
       home: Scaffold(
         body: loadingApp(),
       ),
+      localizationsDelegates: [
+        const TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('de', ''),
+        const Locale('en', ''),
+      ],
       debugShowCheckedModeBanner: !kReleaseMode,
     )
   );

@@ -1,4 +1,15 @@
 {
-  "app_title": "My Application Title",
-  "main_title": "My Main Title"
+  "stage": "Stage",
+  "monster": "Monster",
+  "playinformations": "player information",
+  "tapdmg": "tapdamage",
+  "level": "player level",
+  "goldchest": "GOLD CHEST",
+  "goldchest_description": "get %s gold for watching.",
+  "goldchest_abort": "No, thanks.",
+  "goldchest_ok": "Get the gold!",
+  "option_general_informations": "general information",
+  "option_impressum": "Impressum – Legal Notice",
+  "option_privacy_policy": "Privacy Policy",
+  "option_close": "Close"
 }
