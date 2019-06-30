@@ -23,7 +23,6 @@ class Ads {
         videoIsReady = true;
       }
       if (event == RewardedVideoAdEvent.failedToLoad) {
-        print('failed to load');
         goldMob.isVideoAborded = true;
       }
       if (event == RewardedVideoAdEvent.rewarded) {

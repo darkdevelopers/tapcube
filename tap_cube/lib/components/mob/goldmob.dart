@@ -17,6 +17,8 @@ class GoldMob extends Mob {
   bool isSpawned = false;
   bool isRewardedVideo = false;
   bool isVideoAborded = false;
+  bool isVideoClicked = false;
+  bool isDeleted = false;
   Ads ads;
   Offset targetLocation;
   double get speed => gv.tileSize * 0.5;
@@ -29,7 +31,7 @@ class GoldMob extends Mob {
       topValue += 75;
     }
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
-    Duration duration = Duration(minutes: delay);
+    Duration duration = Duration(seconds: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');
@@ -62,6 +64,7 @@ class GoldMob extends Mob {
                 child: Text(Translations.of(context).text('goldchest_ok')),
                 onPressed: () {
                   ads.startVideo();
+                  isVideoClicked = true;
                   Navigator.of(context).pop();
                 },
               )
