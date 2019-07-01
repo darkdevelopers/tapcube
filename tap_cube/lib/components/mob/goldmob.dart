@@ -31,7 +31,7 @@ class GoldMob extends Mob {
       topValue += 75;
     }
     int delay = minDelay + gv.rng.nextInt(maxDelay - minDelay);
-    Duration duration = Duration(seconds: delay);
+    Duration duration = Duration(minutes: delay);
     newSpawnTime = DateTime.now().add(duration).millisecondsSinceEpoch;
     start = left;
     mobSprite = Sprite('mobs/goldmob.png');
