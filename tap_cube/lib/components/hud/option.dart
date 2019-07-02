@@ -25,11 +25,6 @@ class OptionDisplay {
   void update(double t) {}
 
   void onTapDown(){
-    //Navigator.of(context).pushNamed('/option');
-    /*Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Option()),
-    );*/
     _showDialog();
 
     isOpen = true;
@@ -39,39 +34,42 @@ class OptionDisplay {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(Translations.of(context).text('option_general_informations')),
-            content: Container(
-              width: gv.screenSize.width,
-              height: gv.screenSize.height,
-              child: SingleChildScrollView(
-                child: ListBody(children: <Widget>[
-                  ListTile(
-                    title: Text(Translations.of(context).text('option_impressum')),
-                    onTap: (){
-                      _launchImpressumURL();
-                    },
-                    trailing: Icon(Icons.arrow_right),
-                  ),
-                  ListTile(
-                    title: Text(Translations.of(context).text('option_privacy_policy')),
-                    onTap: (){
-                      _launchDatenschutzURL();
-                    },
-                    trailing: Icon(Icons.arrow_right),
-                  ),
-                ]),
+          return WillPopScope(
+            onWillPop: () {},
+            child: AlertDialog(
+              title: Text(Translations.of(context).text('option_general_informations')),
+              content: Container(
+                width: gv.screenSize.width,
+                height: gv.screenSize.height,
+                child: SingleChildScrollView(
+                  child: ListBody(children: <Widget>[
+                    ListTile(
+                      title: Text(Translations.of(context).text('option_impressum')),
+                      onTap: (){
+                        _launchImpressumURL();
+                      },
+                      trailing: Icon(Icons.arrow_right),
+                    ),
+                    ListTile(
+                      title: Text(Translations.of(context).text('option_privacy_policy')),
+                      onTap: (){
+                        _launchDatenschutzURL();
+                      },
+                      trailing: Icon(Icons.arrow_right),
+                    ),
+                  ]),
+                ),
               ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(Translations.of(context).text('option_close')),
+                  onPressed: () {
+                    isOpen = false;
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(Translations.of(context).text('option_close')),
-                onPressed: () {
-                  isOpen = false;
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
           );
         },
         barrierDismissible: false

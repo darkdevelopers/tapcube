@@ -49,26 +49,29 @@ class GoldMob extends Mob {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(Translations.of(context).text('goldchest')),
-            content: Text(Translations.of(context).text('goldchest_description').replaceAll('%s', lootMoney.toStringAsFixed(2))),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(Translations.of(context).text('goldchest_abort')),
-                onPressed: () {
-                  isVideoAborded = true;
-                  Navigator.of(context).pop();
-                },
+          return WillPopScope(
+              onWillPop: () {},
+              child: AlertDialog(
+                title: Text(Translations.of(context).text('goldchest')),
+                content: Text(Translations.of(context).text('goldchest_description').replaceAll('%s', lootMoney.toStringAsFixed(2))),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(Translations.of(context).text('goldchest_abort')),
+                    onPressed: () {
+                      isVideoAborded = true;
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(Translations.of(context).text('goldchest_ok')),
+                    onPressed: () {
+                      ads.startVideo();
+                      isVideoClicked = true;
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
               ),
-              FlatButton(
-                child: Text(Translations.of(context).text('goldchest_ok')),
-                onPressed: () {
-                  ads.startVideo();
-                  isVideoClicked = true;
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
           );
         },
         barrierDismissible: false
