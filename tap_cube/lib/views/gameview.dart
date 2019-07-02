@@ -131,15 +131,11 @@ class GameView extends Game {
     if(goldMobs != null) {
       goldMobs.forEach((GoldMob gm) {
         gm.update(t);
-        if(gm.isRewardedVideo || (gm.isVideoClicked && !gm.ads.videoIsReady)) {
+        if(gm.isRewardedVideo) {
           moneyDisplay.addMoney(gm.lootMoney);
-            gm.isRewardedVideo = false;
-            gm.isVideoClicked = false;
-            gm.isDeleted = true;
-          }
+          gm.isDeleted = true;
+        }
       });
-      goldMobs.removeWhere((GoldMob goldMob) => goldMob.isVideoAborded);
-      goldMobs.removeWhere((GoldMob goldMob) => goldMob.isOffScreen && !goldMob.isTabed && goldMob.isSpawned);
       goldMobs.removeWhere((GoldMob goldMob) => goldMob.isDeleted);
     }
   }

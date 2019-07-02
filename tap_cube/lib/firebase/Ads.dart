@@ -23,13 +23,13 @@ class Ads {
         videoIsReady = true;
       }
       if (event == RewardedVideoAdEvent.failedToLoad) {
-        goldMob.isVideoAborded = true;
+        goldMob.isDeleted = true;
       }
       if (event == RewardedVideoAdEvent.rewarded) {
         goldMob.isRewardedVideo = true;
       }
       if(event == RewardedVideoAdEvent.closed){
-        goldMob.isVideoAborded = true;
+        goldMob.isDeleted = true;
       }
     };
   }
@@ -41,7 +41,9 @@ class Ads {
   }
 
   void loadVideoAds() {
-    RewardedVideoAd.instance.load(adUnitId: getAdUnitId(), targetingInfo: targetingInfoRelease);
+    RewardedVideoAd.instance.load(adUnitId: getAdUnitId(), targetingInfo: targetingInfoRelease).then((bool retVal){
+      videoIsReady = retVal;
+    });
   }
 
   String getAdUnitId() {

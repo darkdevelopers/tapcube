@@ -58,7 +58,7 @@ class GoldMob extends Mob {
                   FlatButton(
                     child: Text(Translations.of(context).text('goldchest_abort')),
                     onPressed: () {
-                      isVideoAborded = true;
+                      isDeleted = true;
                       Navigator.of(context).pop();
                     },
                   ),
@@ -66,7 +66,6 @@ class GoldMob extends Mob {
                     child: Text(Translations.of(context).text('goldchest_ok')),
                     onPressed: () {
                       ads.startVideo();
-                      isVideoClicked = true;
                       Navigator.of(context).pop();
                     },
                   )
@@ -107,6 +106,7 @@ class GoldMob extends Mob {
         start += 0.1;
       } else {
         isOffScreen = true;
+        isDeleted = true;
       }
       mobRect = mobRect.shift(stepToTarget);
       setTargetLocation();
